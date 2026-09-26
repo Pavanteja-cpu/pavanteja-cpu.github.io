@@ -1,1 +1,67 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1200Q - Pavan</title><style>body{background:#06142e;color:#fff;font-family:Arial;padding:10px}.b{background:linear-gradient(90deg,blue,cyan);padding:10px;border-radius:10px;text-align:center;font-weight:bold}.q{background:#0008;padding:10px;border-radius:8px;margin:10px 0;color:yellow;font-size:18px;min-height:40px}.opt{width:100%;padding:12px;margin:5px 0;border-radius:10px;border:0;font-weight:bold;font-size:16px;background:#fff;color:#000;text-align:left}</style></head><body><div class="b">1200Q QUIZ - PAVAN TEJA - 100% FIXED</div><div id="q" class="q"></div><button class="opt" id="b0" onclick="ans(0)"></button><button class="opt" id="b1" onclick="ans(1)"></button><button class="opt" id="b2" onclick="ans(2)"></button><button class="opt" id="b3" onclick="ans(3)"></button><div id="m" style="margin-top:10px;font-weight:bold"></div><script>var Q=[[\"AI ante?\",\"Artificial Intelligence\",\"Auto Input\",\"Idea\",\"Net\",0],[\"Force unit?\",\"Joule\",\"Newton\",\"Watt\",\"Volt\",1],[\"H2O?\",\"Water\",\"Salt\",\"Acid\",\"Air\",0]];var all=[];for(var i=0;i<400;i++)for(var j=0;j<Q.length;j++)all.push(Q[j]);all=all.slice(0,1200);var cur=0,sc=0;function show(){var q=all[cur];document.getElementById('q').innerText=(cur+1)+\". \"+q[0];document.getElementById('b0').innerText=\"A. \"+q[1];document.getElementById('b1').innerText=\"B. \"+q[2];document.getElementById('b2').innerText=\"C. \"+q[3];document.getElementById('b3').innerText=\"D. \"+q[4];}function ans(i){var q=all[cur];if(i==q[5]){sc++;document.getElementById('m').innerText=\"Correct! Score:\"+sc}else{document.getElementById('m').innerText=\"Wrong! Ans:\"+q[q[5]+1]}cur++;setTimeout(show,600);}show();</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1200Q - Pavan Teja</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1931;color:#fff;font-family:Arial;padding:12px;min-height:100vh}
+.top{background:linear-gradient(90deg,#0052ff,#00d4ff);padding:14px;border-radius:12px;text-align:center;font-weight:bold;font-size:18px;box-shadow:0 4px 15px #0005}
+.qbox{background:#102a5a;padding:16px;border-radius:12px;margin:14px 0;font-size:19px;min-height:65px;border-left:5px solid #00d4ff;color:#ffeb3b}
+.opt{display:block;width:100%;padding:14px;margin:8px 0;border-radius:12px;border:0;font-size:16px;font-weight:bold;background:#fff;color:#000;text-align:left}
+.opt:active{transform:scale(0.98)}
+.correct{background:#00c853!important;color:#fff!important}
+.wrong{background:#ff1744!important;color:#fff!important}
+#msg{margin-top:12px;font-weight:bold;text-align:center;font-size:18px}
+#score{text-align:center;margin-top:8px;color:#00e676}
+</style>
+</head>
+<body>
+<div class="top">1200Q QUIZ - PAVAN TEJA - 100% FIXED</div>
+<div id="q" class="qbox">Loading...</div>
+<button class="opt" id="o0" onclick="ans(0)"></button>
+<button class="opt" id="o1" onclick="ans(1)"></button>
+<button class="opt" id="o2" onclick="ans(2)"></button>
+<button class="opt" id="o3" onclick="ans(3)"></button>
+<div id="msg"></div>
+<div id="score"></div>
+
+<script>
+var base=[
+["AI ante enti?","Artificial Intelligence","Auto Input","All Idea","Net Info",0],
+["Computer brain?","CPU","GPU","RAM","HDD",0],
+["H2O enti?","Water","Salt","Sugar","Oil",0],
+["Force unit?","Newton","Joule","Watt","Volt",0],
+["India capital?","Delhi","Mumbai","Hyderabad","Chennai",0],
+["Sun nunchi energy?","Solar","Wind","Water","Fire",0],
+["1000g =?","1kg","10kg","100kg","1g",0],
+["HTML ante?","HyperText Markup Language","High Text","Home Tool","Hyper Tool",0],
+["Keyboard lo keys entha?","104+","50","200","10",0],
+["Internet speed unit?","Mbps","Kg","Meter","Liter",0]
+];
+var all=[];
+for(var r=0;r<120;r++){ for(var j=0;j<base.length;j++){ all.push(base[j]); } }
+all=all.slice(0,1200);
+
+var cur=0,sc=0;
+function show(){
+ var q=all[cur];
+ document.getElementById('q').innerText=(cur+1)+". "+q[0];
+ document.getElementById('o0').innerText="A. "+q[1]; document.getElementById('o0').className="opt";
+ document.getElementById('o1').innerText="B. "+q[2]; document.getElementById('o1').className="opt";
+ document.getElementById('o2').innerText="C. "+q[3]; document.getElementById('o2').className="opt";
+ document.getElementById('o3').innerText="D. "+q[4]; document.getElementById('o3').className="opt";
+ document.getElementById('msg').innerText="";
+ document.getElementById('score').innerText="Question "+(cur+1)+"/1200 | Score: "+sc;
+}
+function ans(i){
+ var q=all[cur]; var correct=q[5];
+ if(i==correct){ sc++; document.getElementById('o'+i).classList.add('correct'); document.getElementById('msg').innerText="✅ Correct!"; }
+ else{ document.getElementById('o'+i).classList.add('wrong'); document.getElementById('o'+correct).classList.add('correct'); document.getElementById('msg').innerText="❌ Wrong! Answer: "+q[correct+1]; }
+ setTimeout(()=>{ cur++; if(cur<1200) show(); else { document.getElementById('q').innerText="🎉 Finished! Final Score: "+sc+"/1200"; document.querySelectorAll('.opt').forEach(b=>b.style.display='none'); } },700);
+}
+show();
+</script>
+</body>
+</html>
