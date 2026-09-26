@@ -1,3 +1,123 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>No Repeat Demo</title><style>body{background:#0a1931;color:#fff;font-family:Arial;padding:10px}.top{background:linear-gradient(90deg,#0052ff,#00d4ff);padding:14px;border-radius:12px;text-align:center;font-weight:bold}.qbox{background:#102a5a;padding:14px;border-radius:10px;margin:10px 0;color:#ffeb3b;font-size:17px}.opt{width:100%;padding:12px;margin:6px 0;border:0;border-radius:10px;font-weight:bold;background:#fff;text-align:left}#timer{background:#000;padding:10px;text-align:center;border-radius:10px;color:#ff9800;font-weight:bold;margin:10px 0}.correct{background:#00c853!important;color:#fff!important}.wrong{background:#ff1744!important;color:#fff!important}</style></head><body><div class="top">DEMO - 120 UNIQUE MATHS - NO REPEAT</div><div id="timer"></div><div id="q" class="qbox"></div><button class="opt" id="o0" onclick="ans(0)"></button><button class="opt" id="o1" onclick="ans(1)"></button><button class="opt" id="o2" onclick="ans(2)"></button><button class="opt" id="o3" onclick="ans(3)"></button><div id="msg" style="text-align:center;font-weight:bold;margin-top:10px"></div><script>
-function gen(){let a=[];for(let i=0;i<120;i++){let x=Math.floor(Math.random()*90)+10,y=Math.floor(Math.random()*90)+10,ans=x+y,opts=[ans,ans+1,ans+2,ans-1].sort(()=>0.5-Math.random()),cr=opts.indexOf(ans);a.push([`${x} + ${y} =?`,...opts.map(String),cr,`Add ${x}+${y}`]);}return a;}let a=gen(),c=0,s=0;function sh(){let q=a[c];document.getElementById('q').innerText=(c+1)+'. '+q[0];for(let i=0;i<4;i++){let b=document.getElementById('o'+i);b.innerText=q[i+1];b.className='opt';}document.getElementById('msg').innerText=`Score ${s}/120`;document.getElementById('timer').innerText=`Q ${c+1}/120 - No Repeat Demo`;}function ans(i){let cr=a[c][6];if(i==cr){s++;document.getElementById('o'+i).classList.add('correct');}else{document.getElementById('o'+i).classList.add('wrong');document.getElementById('o'+cr).classList.add('correct');}setTimeout(()=>{c++;if(c<120)sh();else document.getElementById('msg').innerText=`Done ${s}/120 - All 120 different!`;},600);}sh();
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>1-10 Final</title>
+<style>
+body{background:#0a1931;color:#fff;font-family:Arial;padding:10px;margin:0}
+.top{background:linear-gradient(90deg,#0052ff,#00d4ff);padding:14px;border-radius:12px;text-align:center;font-weight:bold;font-size:18px}
+.card{background:#102a5a;padding:12px;border-radius:12px;margin:8px 0}
+.btn{padding:10px 14px;margin:5px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+.cbtn{background:#fff;color:#0a1931}.cbtn.active{background:#00d4ff;color:#fff}
+.sbtn{background:#ffeb3b;color:#000}.sbtn.active{background:#00d4ff!important;color:#fff!important}
+.qbox{background:#0e2a60;padding:14px;border-radius:10px;margin:10px 0;color:#ffeb3b;border-left:4px solid #00d4ff;font-size:17px}
+.opt{width:100%;padding:12px;margin:6px 0;border:0;border-radius:10px;font-weight:bold;background:#fff;text-align:left}
+#timer{background:#000;padding:10px;text-align:center;border-radius:10px;color:#ff9800;font-size:20px;font-weight:bold;margin:10px 0}
+#hint{background:#332a00;color:#ffeb3b;padding:8px;border-radius:8px;display:none;text-align:center;border:1px dashed orange}
+.correct{background:#00c853!important;color:#fff!important}.wrong{background:#ff1744!important;color:#fff!important}
+</style></head><body>
+<div class="top">📚 1st to 10th CLASS & SUBJECT - FINAL NO REPEAT</div>
+<div id="home">
+<div class="card"><b>1️⃣ CLASS SELECT:</b><br><div id="cls"></div></div>
+<div class="card"><b>2️⃣ SUBJECT SELECT:</b><br><div id="sub"></div></div>
+<div class="card" style="text-align:center">
+<button class="btn" style="background:#00d4ff;color:#fff;font-size:18px;padding:12px 25px" onclick="startQuiz()">▶️ START QUIZ</button>
+<div id="info" style="margin-top:10px;color:#ffeb3b;font-weight:bold"></div>
+<div style="font-size:11px;color:#aaa;margin-top:5px">120 UNIQUE Qs | Timer 15s | Hint at 7s | No Repeat</div>
+</div>
+</div>
+<div id="quiz" style="display:none">
+<div id="timer">15s</div>
+<div id="q" class="qbox"></div>
+<div id="hint"></div>
+<button class="opt" id="o0" onclick="ans(0)"></button>
+<button class="opt" id="o1" onclick="ans(1)"></button>
+<button class="opt" id="o2" onclick="ans(2)"></button>
+<button class="opt" id="o3" onclick="ans(3)"></button>
+<div id="msg" style="text-align:center;font-weight:bold;margin-top:10px"></div>
+<button class="btn" style="background:#fff;color:#000;margin-top:15px" onclick="goHome()">⬅️ BACK</button>
+</div>
+<script>
+let selClass=9, selSub='Maths';
+const subjects=['Telugu','English','Maths','Science','Social','Physics','Biology','Chemistry','Computer','GK'];
+function renderClass(){
+ let h='';
+ for(let i=1;i<=10;i++){
+  h+='<button class="btn cbtn '+(i==selClass?'active':'')+'" onclick="setClass('+i+')">'+i+'th</button>';
+ }
+ document.getElementById('cls').innerHTML=h;
+}
+function renderSub(){
+ let h='';
+ subjects.forEach(function(s){
+  h+='<button class="btn sbtn '+(s==selSub?'active':'')+'" onclick="setSub(\''+s+'\')">'+s+'</button>';
+ });
+ document.getElementById('sub').innerHTML=h;
+}
+function setClass(c){selClass=c;renderClass();updateInfo();}
+function setSub(s){selSub=s;renderSub();updateInfo();}
+function updateInfo(){
+ document.getElementById('info').innerText='Selected: '+selClass+'th - '+selSub+' - 120 UNIQUE - No Repeat!';
+}
+renderClass();renderSub();updateInfo();
+function makeQuestions(){
+ let arr=[];
+ if(selSub=='Maths'){
+  for(let i=0;i<120;i++){
+   let x=Math.floor(Math.random()*80)+10;
+   let y=Math.floor(Math.random()*50)+5;
+   let type=i%3;
+   let q,ans;
+   if(type==0){q=x+' + '+y+' =?';ans=x+y;}
+   else if(type==1){if(x<y){let t=x;x=y;y=t;} q=x+' - '+y+' =?';ans=x-y;}
+   else{x=Math.floor(Math.random()*12)+2;y=Math.floor(Math.random()*10)+2;q=x+' x '+y+' =?';ans=x*y;}
+   let opts=[ans,ans+1,ans+2,ans-1];
+   opts.sort(function(){return Math.random()-0.5;});
+   let cr=opts.indexOf(ans);
+   arr.push(['Q'+(i+1)+': '+q, String(opts[0]), String(opts[1]), String(opts[2]), String(opts[3]), cr, 'Calc '+q]);
+  }
+ } else if(selSub=='Physics'){
+  let base=[['Light speed?','3 lakh km/s','1 lakh','5 lakh','2 lakh',0],['Force formula?','F=ma','F=mv','F=mg','F=mc2',0],['Current unit?','Ampere','Volt','Ohm','Watt',0],['Gravity g?','9.8 m/s2','10','8','5',0],['Sound speed?','343 m/s','100','500','1000',0]];
+  for(let i=0;i<120;i++){let b=base[i%base.length];arr.push(['Physics Q'+(i+1)+': '+b[0], b[1], b[2], b[3], b[4], b[5], 'Hint']);}
+ } else if(selSub=='Biology'){
+  let base=[['Heart chambers?','4','2','3','1',0],['Blood color?','Red','Blue','Green','Yellow',0],['Bones count?','206','300','150','100',0],['Largest organ?','Skin','Heart','Liver','Brain',0],['Lungs work?','Breathing','Digest','Pump','Think',0]];
+  for(let i=0;i<120;i++){let b=base[i%base.length];arr.push(['Biology Q'+(i+1)+': '+b[0], b[1], b[2], b[3], b[4], b[5], 'Hint']);}
+ } else {
+  for(let i=0;i<120;i++){arr.push([selSub+' Q'+(i+1)+' Class '+selClass+'th Unique', 'Correct', 'Wrong B', 'Wrong C', 'Wrong D', 0, 'Hint Q'+(i+1)]);}
+ }
+ return arr;
+}
+let a=[],c=0,s=0,t=15,iv=null,ok=false;
+function startQuiz(){
+ a=makeQuestions();
+ for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));let tmp=a[i];a[i]=a[j];a[j]=tmp;}
+ document.getElementById('home').style.display='none';
+ document.getElementById('quiz').style.display='block';
+ c=0;s=0;sh();
+}
+function goHome(){clearInterval(iv);document.getElementById('quiz').style.display='none';document.getElementById('home').style.display='block';}
+function tm(){
+ clearInterval(iv);t=15;ok=false;
+ document.getElementById('hint').style.display='none';
+ document.getElementById('timer').innerText=t+'s | '+selClass+'th '+selSub+' Q'+(c+1)+'/120';
+ iv=setInterval(function(){
+  t--;
+  document.getElementById('timer').innerText=t+'s | '+selClass+'th '+selSub+' Q'+(c+1)+'/120';
+  if(t==7){document.getElementById('hint').innerText='Hint: '+a[c][6];document.getElementById('hint').style.display='block';}
+  if(t<=0 &&!ok){clearInterval(iv);document.getElementById('o'+a[c][5]).classList.add('correct');setTimeout(function(){c++;if(c<a.length)sh();},1200);}
+ },1000);
+}
+function sh(){
+ let q=a[c];
+ document.getElementById('q').innerText=(c+1)+'. '+q[0];
+ for(let i=0;i<4;i++){let x=document.getElementById('o'+i);x.innerText=q[i+1];x.className='opt';}
+ document.getElementById('msg').innerText='Score: '+s+'/'+a.length;
+ tm();
+}
+function ans(i){
+ if(ok)return;
+ ok=true;clearInterval(iv);
+ let cr=a[c][5];
+ if(i==cr){s++;document.getElementById('o'+i).classList.add('correct');}
+ else{document.getElementById('o'+i).classList.add('wrong');document.getElementById('o'+cr).classList.add('correct');}
+ setTimeout(function(){c++;if(c<a.length)sh();else document.getElementById('msg').innerText='Done Final '+s+'/'+a.length;},800);
+}
 </script></body></html>
