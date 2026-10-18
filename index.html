@@ -1,1 +1,195 @@
- <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MTB Specialist</title><style>*{box-sizing:border-box;margin:0}body{font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;min-height:100vh}.h{position:sticky;top:0;background:rgba(0,0,0,.3);padding:12px 12px}.tabs{display:flex;gap:6px;overflow:auto}.tab{padding:7px 14px;border-radius:20px;background:rgba(255,255,255,.25);font-weight:800;font-size:12px;white-space:nowrap}.tab.on{background:#fff;color:#764ba2}.stats{display:flex;gap:6px;margin-top:10px}.s{flex:1;background:#fff;color:#222;border-radius:10px;padding:6px;text-align:center}.s b{display:block;font-size:18px}.bar{height:10px;background:rgba(255,255,255,.3);border-radius:20px;margin-top:8px;overflow:hidden}#fill{height:100%;width:100%;background:#00ff9d;transition:width 10s linear}.wrap{max-width:700px;margin:auto}.card{margin:12px;background:#fff;color:#222;border-radius:18px;padding:16px}.opt{padding:13px;border:2px solid #eee;border-radius:12px;margin:9px 0;font-weight:700;cursor:pointer}.opt.ok{border-color:#00b894;background:#d4ffe8}.opt.bad{border-color:#ff4757;background:#ffdde0}.btn{flex:1;padding:12px;border-radius:10px;border:none;font-weight:800}.btn.n{background:#764ba2;color:#fff}.btn.p{background:#fff;border:2px solid #ddd}#pop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);padding:14px 28px;border-radius:30px;font-size:26px;font-weight:900;transition:.3s;z-index:99;color:#fff}#pop.show{transform:translate(-50%,-50%) scale(1)}</style></head><body><div class="h"><div style="font-weight:900;font-size:18px">🎨 MTB SPECIALIST</div><div class="tabs" id="tabs"></div><div class="stats"><div class="s"><b id="sc">0</b>SC</div><div class="s"><b id="co">0</b>OK</div><div class="s"><b id="qt">1/6</b>Q</div><div class="s"><b id="tm">10.0</b>SEC</div></div><div class="bar"><div id="fill"></div></div></div><div class="wrap"><div class="card" id="qc"><span id="qn" style="background:#764ba2;color:#fff;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800">Q1</span><div id="qt2" style="font-weight:800;margin:14px 0;font-size:18px;min-height:20px"></div><div id="opts"></div><div style="display:flex;gap:8px;margin-top:14px"><button class="btn p" id="prev">← Prev</button><button class="btn n" id="next">Skip →</button></div></div><div class="card" id="res" style="display:none;text-align:center"><h2>🎉 Done!</h2><h1 id="fs" style="font-size:48px;color:#764ba2;margin:10px 0"></h1><button class="btn n" style="width:100%;margin-top:12px;padding:14px" onclick="location.reload()">🔄 Restart</button></div></div><div id="pop"></div><script>const DATA={M:[{q:"Value of 12 x 12 ?",o:["124","144","142","154"],a:1},{q:"Square root of 144 ?",o:["10","11","12","14"],a:2},{q:"5 power 0 = ?",o:["0","1","5","10"],a:1},{q:"Which is even prime ?",o:["2","4","9","15"],a:0},{q:"10 + 15 x 2 ?",o:["50","40","30","35"],a:1},{q:"Area of square side 5 ?",o:["10","20","25","15"],a:2}],P:[{q:"SI unit of length ?",o:["Kg","Metre","Sec","Newton"],a:1},{q:"Which is scalar ?",o:["Force","Velocity","Speed","Accn"],a:2},{q:"Speed formula ?",o:["T/D","D/T","D x T","D+T"],a:1},{q:"F=ma is which law ?",o:["First","Second","Third","Grav"],a:1},{q:"Unit of weight ?",o:["Kg","Metre","Newton","Sec"],a:2},{q:"Work unit ?",o:["N","Joule","Watt","Pascal"],a:1}],B:[{q:"Basic unit of life ?",o:["Cell","Tissue","Organ","System"],a:0},{q:"Powerhouse of cell ?",o:["Nucleus","Mitochondria","Chloro","Ribo"],a:1},{q:"Blood is which tissue ?",o:["Connective","Epithelial","Muscular","Nervous"],a:0},{q:"Malaria caused by ?",o:["Plasmodium","Bacteria","Virus","Fungus"],a:0},{q:"Human chromosomes ?",o:["46","23","44","48"],a:0},{q:"Heart chambers ?",o:["2","3","4","1"],a:2}]};let sub='M',cur=0,score=0,correct=0, Q=DATA[sub],tmr,left=10;function init(){const tb=document.getElementById('tabs');tb.innerHTML='';[['M','MATHS'],['P','PHYSICS'],['B','BIOLOGY']].forEach(([k,l])=>{const d=document.createElement('div');d.className='tab'+(k===sub?' on':'');d.textContent=l;d.onclick=()=>{sub=k;Q=DATA[sub];cur=0;score=0;correct=0;document.getElementById('sc').textContent=0;document.getElementById('co').textContent=0;render();init();};tb.appendChild(d);});}function pop(t,c){const p=document.getElementById('pop');p.textContent=t;p.style.background=c;p.classList.add('show');setTimeout(()=>p.classList.remove('show'),800);}function start(){clearInterval(tmr);left=10;const f=document.getElementById('fill');f.style.transition='none';f.style.width='100%';void f.offsetWidth;f.style.transition='width 10s linear';f.style.width='0%';tmr=setInterval(()=>{left-=0.1;document.getElementById('tm').textContent=left.toFixed(1);if(left<=0){clearInterval(tmr);nextQ();}},100);}function render(){const q=Q[cur];document.getElementById('qn').textContent='Q '+(cur+1);document.getElementById('qt2').textContent=q.q;document.getElementById('opts').innerHTML='';q.o.forEach((o,i)=>{const d=document.createElement('div');d.className='opt';d.innerHTML='<b>'+String.fromCharCode(65+i)+'. </b> '+o;d.onclick=()=>{clearInterval(tmr);if(i===q.a){score+=10;correct++;pop('+10','green');d.classList.add('ok');}else{pop('0','red');d.classList.add('bad');}document.getElementById('sc').textContent=score;document.getElementById('co').textContent=correct;setTimeout(nextQ,800);};document.getElementById('opts').appendChild(d);});document.getElementById('qt').textContent=(cur+1)+'/'+Q.length;start();}function nextQ(){if(cur<Q.length-1){cur++;render();}else{clearInterval(tmr);document.getElementById('qc').style.display='none';document.getElementById('res').style.display='block';document.getElementById('fs').textContent=score+' pts';}}document.getElementById('prev').onclick=()=>{if(cur>0){clearInterval(tmr);cur--;render();}};document.getElementById('next').onclick=()=>{clearInterval(tmr);nextQ();};init();render();</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTB Specialist - Class 9</title>
+<style>
+*{margin:0;box-sizing:border-box}
+body{font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:white;min-height:100vh}
+.header{background:rgba(0,0,0,0.25);padding:14px;position:sticky;top:0;backdrop-filter:blur(10px)}
+.logo{font-weight:900;font-size:20px}
+.tabs{display:flex;gap:8px;margin-top:12px;overflow:auto}
+.tab{padding:8px 16px;background:rgba(255,255,255,0.2);border-radius:20px;font-weight:800;font-size:13px;white-space:nowrap;cursor:pointer}
+.tab.active{background:white;color:#764ba2}
+.stats{display:flex;gap:8px;margin-top:12px}
+.stat{flex:1;background:white;color:#222;border-radius:12px;padding:8px;text-align:center}
+.stat b{display:block;font-size:20px;color:#764ba2}
+.bar{height:12px;background:rgba(255,255,255,0.3);border-radius:20px;margin-top:10px;overflow:hidden}
+.fill{height:100%;width:100%;background:#00ff88;transition:width 10s linear}
+.wrap{max-width:700px;margin:0 auto;padding:12px}
+.card{background:white;color:#222;border-radius:20px;padding:20px;margin-top:12px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}
+.qno{background:#764ba2;color:white;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:800}
+.qtext{font-size:19px;font-weight:800;margin:16px 0;line-height:1.4}
+.opt{padding:14px;border:2.5px solid #eee;border-radius:14px;margin:10px 0;font-weight:700;cursor:pointer;font-size:15px}
+.opt:hover{border-color:#764ba2;background:#f5f0ff}
+.opt.correct{border-color:#00b894;background:#d4ffe8}
+.opt.wrong{border-color:#ff4757;background:#ffe0e0}
+.btns{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;padding:13px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer}
+.btn.prev{background:#eee;color:#333}
+.btn.next{background:#764ba2;color:white}
+.result{text-align:center}
+.result h1{font-size:50px;color:#764ba2;margin:10px}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="logo">🎨 MTB SPECIALIST - CLASS 9</div>
+<div class="tabs" id="tabs"></div>
+<div class="stats">
+<div class="stat"><b id="score">0</b>Score</div>
+<div class="stat"><b id="correct">0</b>Correct</div>
+<div class="stat"><b id="qnum">1/6</b>Ques</div>
+<div class="stat"><b id="time">10.0</b>Sec</div>
+</div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="wrap">
+<div class="card" id="qcard">
+<span class="qno" id="qno">Q 1</span>
+<div class="qtext" id="qtext"></div>
+<div id="options"></div>
+<div class="btns">
+<button class="btn prev" id="prevBtn">← Prev</button>
+<button class="btn next" id="nextBtn">Next →</button>
+</div>
+</div>
+
+<div class="card result" id="rcard" style="display:none">
+<h2>🎉 Completed!</h2>
+<h1 id="finalScore">0 pts</h1>
+<p id="finalMsg" style="color:#666;margin:10px 0"></p>
+<button class="btn next" style="width:100%;margin-top:15px" onclick="location.reload()">🔄 Play Again</button>
+</div>
+</div>
+
+<script>
+const DATA = {
+MATHS: [
+{q:"12 x 12 = ?", o:["124","144","154","134"], a:1},
+{q:"Square root of 144?", o:["10","11","12","13"], a:2},
+{q:"5 power 0 = ?", o:["0","1","5","25"], a:1},
+{q:"Only even prime number?", o:["2","4","6","8"], a:0},
+{q:"10 + 15 x 2 = ?", o:["50","40","30","25"], a:1},
+{q:"Area of square side 5?", o:["10","20","25","30"], a:2}
+],
+PHYSICS: [
+{q:"SI unit of length?", o:["Kg","Metre","Second","Newton"], a:1},
+{q:"Which is scalar quantity?", o:["Force","Velocity","Speed","Displacement"], a:2},
+{q:"Formula of Speed?", o:["Distance/Time","Time/Distance","Distance x Time","None"], a:0},
+{q:"F=ma is Newtons which law?", o:["First","Second","Third","Zero"], a:1},
+{q:"Unit of Force?", o:["Joule","Watt","Newton","Pascal"], a:2},
+{q:"Unit of Work?", o:["Newton","Joule","Watt","Volt"], a:1}
+],
+BIOLOGY: [
+{q:"Basic unit of life?", o:["Cell","Tissue","Organ","System"], a:0},
+{q:"Powerhouse of cell?", o:["Nucleus","Mitochondria","Ribosome","Chloroplast"], a:1},
+{q:"Blood is which tissue?", o:["Connective","Epithelial","Muscular","Nervous"], a:0},
+{q:"Malaria caused by?", o:["Plasmodium","Bacteria","Virus","Fungus"], a:0},
+{q:"Human chromosomes count?", o:["46","23","44","48"], a:0},
+{q:"How many chambers in heart?", o:["2","3","4","5"], a:2}
+]
+};
+
+let subject = 'MATHS';
+let index = 0;
+let score = 0;
+let correct = 0;
+let timer;
+let timeLeft = 10;
+let questions = DATA[subject];
+
+function initTabs(){
+const tabDiv = document.getElementById('tabs');
+tabDiv.innerHTML='';
+Object.keys(DATA).forEach(key=>{
+const div = document.createElement('div');
+div.className = 'tab' + (key===subject?' active':'');
+div.textContent = key;
+div.onclick = ()=>{
+subject = key;
+questions = DATA[subject];
+index = 0; score=0; correct=0;
+document.getElementById('score').textContent='0';
+document.getElementById('correct').textContent='0';
+render();
+initTabs();
+};
+tabDiv.appendChild(div);
+});
+}
+
+function startTimer(){
+clearInterval(timer);
+timeLeft = 10;
+const fill = document.getElementById('fill');
+fill.style.transition='none';
+fill.style.width='100%';
+void fill.offsetWidth;
+fill.style.transition='width 10s linear';
+fill.style.width='0%';
+timer = setInterval(()=>{
+timeLeft -= 0.1;
+document.getElementById('time').textContent = timeLeft.toFixed(1);
+if(timeLeft <= 0){
+clearInterval(timer);
+nextQues();
+}
+},100);
+}
+
+function render(){
+const q = questions[index];
+document.getElementById('qno').textContent = 'Q ' + (index+1);
+document.getElementById('qtext').textContent = q.q;
+document.getElementById('qnum').textContent = (index+1)+'/'+questions.length;
+const optDiv = document.getElementById('options');
+optDiv.innerHTML='';
+q.o.forEach((opt,i)=>{
+const d = document.createElement('div');
+d.className='opt';
+d.innerHTML = String.fromCharCode(65+i) + '. ' + opt;
+d.onclick = ()=>{
+clearInterval(timer);
+if(i===q.a){
+score+=10; correct++;
+d.classList.add('correct');
+}else{
+d.classList.add('wrong');
+}
+document.getElementById('score').textContent=score;
+document.getElementById('correct').textContent=correct;
+setTimeout(nextQues,800);
+};
+optDiv.appendChild(d);
+});
+startTimer();
+}
+
+function nextQues(){
+if(index < questions.length-1){
+index++;
+render();
+}else{
+clearInterval(timer);
+document.getElementById('qcard').style.display='none';
+document.getElementById('rcard').style.display='block';
+document.getElementById('finalScore').textContent = score + ' Points';
+document.getElementById('finalMsg').textContent = correct + ' out of ' + questions.length + ' correct!';
+}
+}
+
+document.getElementById('prevBtn').onclick = ()=>{
+if(index>0){clearInterval(timer); index--; render();}
+};
+document.getElementById('nextBtn').onclick = ()=>{
+clearInterval(timer); nextQues();
+};
+
+initTabs();
+render();
+</script>
+</body>
+</html>
