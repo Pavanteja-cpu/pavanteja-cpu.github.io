@@ -4,66 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#764ba2">
-<title>MTB 450 - ANSWER SHOW</title>
+<meta name="theme-color" content="#6c5ce7">
+<title>MTB 450 • ANSWER SHOW • 150 EACH</title>
 <style>
-*{box-sizing:border-box} 
-body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2,#8e44ad);min-height:100vh;padding:0;display:flex;justify-content:center}
-.wrap{width:100%;max-width:850px;min-height:100vh}
-.header{background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);padding:14px;text-align:center;color:#fff;font-weight:900;font-size:15px}
-.sub{font-size:11px;opacity:0.9;margin-top:2px}
-.tabs{display:flex;gap:6px;padding:8px} 
-.tabs button{flex:1;padding:12px 4px;border:0;border-radius:10px;font-size:12px;font-weight:800;background:#fff;cursor:pointer}
-.tabs button.active{background:#000;color:#fff;transform:scale(1.02)}
-.stats{display:flex;gap:6px;padding:0 8px 8px} 
-.stats div{flex:1;background:#fff;border-radius:10px;padding:10px;text-align:center;font-weight:800;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.stats small{font-size:10px;color:#666}
-.bar{height:8px;background:rgba(0,0,0,0.2);margin:0 8px;border-radius:10px;overflow:hidden} 
-.fill{height:100%;width:35%;background:#2ecc71;transition:0.3s}
-.card{background:#fff;margin:12px 8px;border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
-.qno{font-size:11px;font-weight:800;color:#764ba2} 
-.q{font-weight:800;margin:10px 0 16px;font-size:18px;line-height:1.4}
-.opt{width:100%;padding:16px;margin:7px 0;border:2px solid #eee;border-radius:12px;background:#f9f9f9;text-align:left;font-weight:700;font-size:15px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:0.2s}
-.opt:hover{border-color:#764ba2;background:#f3e8ff;transform:translateX(3px)}
-.opt b{background:#eee;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.btns{display:flex;gap:10px;margin-top:18px} 
-.btns button{flex:1;padding:14px;border:0;border-radius:12px;font-weight:800;font-size:13px;cursor:pointer}
-.opt.correct{background:#d4edda!important;border-color:#28a745!important}
-.opt.wrong{background:#f8d7da!important;border-color:#dc3545!important}
-
-/* LARGE SCREEN - Desktop / Tablet */
-@media(min-width:768px){
-  .header{font-size:20px;padding:18px;border-radius:0 0 16px 16px;margin:0 8px}
-  .sub{font-size:13px}
-  .tabs button{padding:16px;font-size:14px}
-  .stats div{padding:14px;font-size:18px}
-  .card{padding:28px;margin:16px 8px}
-  .q{font-size:22px}
-  .opt{padding:18px;font-size:16px}
-  .btns button{padding:16px;font-size:14px}
-  body{padding:10px}
-}
-#pop{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#000;color:#fff;padding:12px 22px;border-radius:30px;font-weight:800;display:none;z-index:99;font-size:14px}
+*{box-sizing:border-box;margin:0}body{font-family:system-ui;background:linear-gradient(180deg,#6c5ce7,#a29bfe);min-height:100vh;display:flex;justify-content:center;padding:0}
+.wrap{width:100%;max-width:900px;min-height:100vh;padding:8px}
+.top{background:#fff;padding:14px;border-radius:14px;font-weight:900;text-align:center;font-size:16px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.tabs{display:flex;gap:8px;margin:12px 0}.tabs button{flex:1;padding:12px;border:0;border-radius:22px;font-weight:800;font-size:13px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12)}.tabs button.on{background:#000;color:#fff}
+.stats{display:flex;gap:8px;margin-bottom:8px}.stats div{flex:1;background:#fff;border-radius:14px;padding:10px;text-align:center;font-weight:900;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.12)}.stats small{font-size:10px;color:#666;display:block}
+.bar{height:10px;background:rgba(0,0,0,.15);border-radius:10px;overflow:hidden;margin-bottom:12px}.fill{height:100%;background:linear-gradient(90deg,#00f2a0,#00d2ff);width:2%;transition:.3s}
+.card{background:#fff;border-radius:22px;padding:20px;box-shadow:0 12px 30px rgba(0,0,0,.2);min-height:480px}
+.qno{font-size:12px;font-weight:800;color:#6c5ce7}.q{font-weight:800;font-size:19px;margin:12px 0 16px;line-height:1.35}
+.opt{width:100%;padding:14px;margin:8px 0;border:1.5px solid #eee;border-radius:14px;background:#fff;text-align:left;font-weight:600;font-size:15px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.opt b{background:#f1f1f1;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.opt.correct{border-color:#00c853;background:#e8f5e9}.opt.correct b{background:#00c853;color:#fff}
+.opt.wrong{border-color:#ff1744;background:#ffebee}.opt.wrong b{background:#ff1744;color:#fff}
+.btns{display:flex;gap:10px;margin-top:20px}.btns button{flex:1;padding:13px;border:0;border-radius:12px;font-weight:800;font-size:13px}
+@media(min-width:768px){.wrap{padding:18px}.top{font-size:20px}.q{font-size:22px}.opt{padding:16px;font-size:16px}.card{padding:26px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="header">MTB 450 • ANSWER SHOW • 150 EACH<div class="sub">M 150 | P 150 | B 150 | Timer 10s | Answer Show + Auto Next</div></div>
-<div class="tabs"><button class="active" onclick="ch('M')">MATHS 150</button><button onclick="ch('P')">PHYSICS 150</button><button onclick="ch('B')">BIOLOGY 150</button></div>
+<div class="top">MTB 450 • ANSWER SHOW • 150 EACH</div>
+<div class="tabs"><button id="bM" class="on" onclick="ch('M')">MATHS 150</button><button id="bP" onclick="ch('P')">PHYSICS 150</button><button id="bB" onclick="ch('B')">BIOLOGY 150</button></div>
 <div class="stats"><div id="sc">0<br><small>SCORE</small></div><div id="cr">0<br><small>CORRECT</small></div><div id="qn">1/50<br><small>Q</small></div><div id="ti">10<br><small>SEC</small></div></div>
 <div class="bar"><div id="fill" class="fill"></div></div>
 <div class="card">
-<div style="display:flex;justify-content:space-between"><span class="qno" id="qno">Q1</span><span class="qno" id="meta">M - Set 1 - 1/150</span></div>
-<div class="q" id="q">Loading 450 unique questions...</div>
+<div style="display:flex;justify-content:space-between"><span class="qno" id="qno">Q7</span><span class="qno" id="meta">M - Set 1 - 7/150</span></div>
+<div class="q" id="q">Loading...</div>
 <div id="opts"></div>
-<div class="btns"><button onclick="prev()" style="background:#f1f1f1">← Prev</button><button onclick="hint()" style="background:#ffcc00">💡 Hint (-5)</button><button onclick="next()" style="background:#764ba2;color:#fff">Skip →</button></div>
+<div class="btns"><button onclick="prev()" style="background:#f1f1f1">← Prev</button><button onclick="hint()" style="background:#ffcc4d">💡 Hint (-5)</button><button onclick="next()" style="background:#6c5ce7;color:#fff">Skip →</button></div>
 </div>
 </div>
-<div id="pop"></div>
 <script>
-// 450 UNIQUE QUESTIONS GENERATOR - NO REPEAT
-const M=[],P=[],B=[];
-for(let i=1;i<=150;i++){
-  M.push({q:`Q${i}: What is ${i*3} + ${i*2}?`,o:[`${i*5-1}`,`${i*5}`,`${i*5+1}`,`${i*5+2}`],a:1});
-  P.push({q:`Q${i}: SI unit of ${['Force','Energy','Power','Pressure','Current'][i%5]}?`,o:[['Newton','Joule','Watt','Pascal','Ampere'][i%5],'Volt','Ohm','Tesla'],a:0});
-  B.push({q:`Q${i}: Which is ${['Mammal','Cell organ','Vitamin','Blood group'][i%4]}?`,o:[['Whale','Mitochondria','Vitamin D','O+ve'][i%4],'Virus','Stone
+// FINAL 450 UNIQUE - NO REPEAT
+const DATA={M:[],P:[],B:[]};
+// MATHS 150 UNIQUE
+DATA.M.push({q:"Which irrational number?",o:["1/2","0.25","√2","4"],a:2});
+for(let i=2;i<=150;i++){let a=i*3,b=i*2+5;DATA.M.push({q:`Q${i}: What is ${a} + ${b}?`,o:[`${a+b-1}`,`${a+b}`,`${a+b+1}`,`${a+b+2}`],a:1});}
+// PHYSICS 150 UNIQUE
+DATA.P.push({q:"SI unit of Force?",o:["Newton","Joule","Watt","Pascal"],a:0});
+for(let i=2;i<=150;i++){DATA.P.push({q:`Q${i}: Power = Work / Time - If Work ${i*10}J in ${i}s, Power?`,o:[`${10-1}W`,`${10}W`,`${10+1}W`,`${10+2}W`],a:1});}
+// BIOLOGY 150 UNIQUE
+DATA.B.push({q:"Basic unit of life?",o:["Cell","Tissue","Organ","Atom"],a:0});
+for(let i=2;i<=150;i++){DATA.B.push({q:`Q${i}: Human heart beats ~${
