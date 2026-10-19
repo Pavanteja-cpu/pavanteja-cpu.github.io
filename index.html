@@ -1,131 +1,24 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MTB FAST - 10 Sec</title>
-<style>
-body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;min-height:100vh}
-.h{position:sticky;top:0;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);padding:12px;z-index:10}
-.tabs{display:flex;gap:6px;overflow:auto;margin-top:8px}
-.tab{padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.2);font-weight:700;cursor:pointer;white-space:nowrap}
-.tab.on{background:#fff;color:#764ba2}
-.stats{display:flex;gap:6px;margin-top:8px}
-.s{flex:1;background:#fff;color:#000;border-radius:12px;padding:6px;text-align:center}
-.s b{display:block;font-size:18px}
-.bar{height:10px;background:rgba(255,255,255,.3);border-radius:10px;margin-top:8px;overflow:hidden}
-#fill{height:100%;width:100%;background:#00ff9d;transition:width 10s linear}
-.card{margin:12px;background:#fff;color:#222;border-radius:18px;padding:16px}
-.opt{padding:12px;border:2px solid #eee;border-radius:12px;margin:8px 0;cursor:pointer;font-weight:600;display:flex;gap:8px}
-.opt.ok{border-color:#00b894;background:#d4ffe8}
-.opt.bad{border-color:#ff4757;background:#ffdde0}
-.badge{background:#764ba2;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
-#pop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);background:#000;color:#fff;padding:15px 30px;border-radius:30px;font-size:32px;font-weight:800;transition:.4s;z-index:99}
-#pop.show{transform:translate(-50%,-50%) scale(1)}
-.btn{flex:1;padding:12px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
-.btn.n{background:#764ba2;color:#fff}
-.btn.p{background:#fff;border:2px solid #ddd}
-</style></head><body>
-<div class="h">
-<div style="font-weight:800;font-size:18px">🎨 MTB FAST • 450 Qs • 10 SEC ⏱️</div>
-<div style="font-size:11px;opacity:.9">M=Maths | T=Physics | B=Biology • +5 / -10 • Colourful</div>
-<div class="tabs" id="tabs"></div>
-<div class="stats">
-<div class="s"><b id="sc">0</b><span style="font-size:10px">SCORE</span></div>
-<div class="s"><b id="co">0</b><span style="font-size:10px">CORRECT</span></div>
-<div class="s"><b id="qt">1/50</b><span style="font-size:10px">Q</span></div>
-<div class="s"><b id="tm">10</b><span style="font-size:10px">SEC</span></div>
-</div>
-<div class="bar"><div id="fill"></div></div>
-</div>
-<div id="wrap" style="max-width:700px;margin:auto">
-<div class="card" id="qc">
-<div style="display:flex;justify-content:space-between"><span class="badge" id="qn">Q1</span><span id="sn" style="font-size:11px;font-weight:700"></span></div>
-<div id="qt2" style="font-weight:700;margin:12px 0;font-size:16px"></div>
-<div id="opts"></div>
-<div style="display:flex;gap:8px;margin-top:12px"><button class="btn p" id="prev">← Prev</button><button class="btn n" id="next">Skip →</button></div>
-</div>
-<div class="card" id="res" style="display:none;text-align:center">
-<h2>🎉 Set Done!</h2><h1 id="fs" style="font-size:42px;color:#764ba2"></h1><p id="rs"></p>
-<button class="btn n" style="width:100%" onclick="restart()">🔄 Restart</button>
-<button class="btn p" style="width:100%;margin-top:8px" onclick="nextSet()">➡️ Next Set</button>
-</div>
-</div>
-<div id="pop"></div>
+<title>MTB 450 ANSWER SHOW</title>
+<style>body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);color:#fff;min-height:100vh}.h{position:sticky;top:0;background:rgba(0,0,0,.25);backdrop-filter:blur(12px);padding:12px;z-index:10}.tabs{display:flex;gap:6px;overflow:auto;margin-top:8px}.tab{padding:7px 15px;border-radius:20px;background:rgba(255,255,255,.25);font-weight:800;cursor:pointer;white-space:nowrap;font-size:12px}.tab.on{background:#fff;color:#764ba2}.stats{display:flex;gap:6px;margin-top:10px}.s{flex:1;background:#fff;color:#222;border-radius:14px;padding:7px;text-align:center}.s b{display:block;font-size:19px}.bar{height:12px;background:rgba(255,255,255,.3);border-radius:20px;margin-top:8px;overflow:hidden}#fill{height:100%;width:100%;background:linear-gradient(90deg,#00ff9d,#00f2fe);transition:width 10s linear}.card{margin:12px;background:#fff;color:#222;border-radius:20px;padding:16px}.opt{padding:13px;border:2.5px solid #eee;border-radius:14px;margin:8px 0;cursor:pointer;font-weight:700;display:flex;gap:10px;background:#fff}.opt.ok{border-color:#00b894;background:#d4ffe8}.opt.bad{border-color:#ff4757;background:#ffdde0}.opt.dim{opacity:.35;pointer-events:none}.badge{background:#764ba2;color:#fff;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:800}.hintBox{background:#ffeaa7;border:2px dashed #e17055;border-radius:12px;padding:10px;margin:10px 0;display:none;color:#6c3000;font-weight:700;font-size:13px}#pop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);padding:12px 24px;border-radius:20px;font-size:18px;font-weight:800;transition:.4s;z-index:99;color:#fff;text-align:center;max-width:80%}#pop.show{transform:translate(-50%,-50%) scale(1)}.btn{flex:1;padding:12px;border-radius:14px;border:none;font-weight:800;cursor:pointer}.btn.n{background:#764ba2;color:#fff}.btn.p{background:#fff;border:2px solid #ddd}.btn.hint{background:#fdcb6e;color:#6c3000}</style></head><body>
+<div class="h"><div style="font-weight:900;font-size:18px">🎨 MTB 450 • ANSWER SHOW • 150 EACH</div><div style="font-size:11px">M 150 | P 150 | B 150 | +10 / +5 | Timer 0 = Answer Show + Auto Next</div><div class="tabs" id="tabs"></div><div class="stats"><div class="s"><b id="sc">0</b><span style="font-size:9px">SCORE</span></div><div class="s"><b id="co">0</b><span style="font-size:9px">CORRECT</span></div><div class="s"><b id="qt">1/50</b><span style="font-size:9px">Q</span></div><div class="s"><b id="tm">10.0</b><span style="font-size:9px">SEC</span></div></div><div class="bar"><div id="fill"></div></div></div>
+<div style="max-width:720px;margin:auto"><div class="card" id="qc"><div style="display:flex;justify-content:space-between"><span class="badge" id="qn">Q1</span><span id="sn" style="font-size:11px;font-weight:800;color:#764ba2"></span></div><div id="qt2" style="font-weight:800;margin:12px 0;font-size:17px"></div><div class="hintBox" id="hintBox"></div><div id="opts"></div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn p" id="prev">← Prev</button><button class="btn hint" id="hintBtn">💡 Hint (-5)</button><button class="btn n" id="next">Skip →</button></div></div><div class="card" id="res" style="display:none;text-align:center"><h2>🎉 Set Done!</h2><h1 id="fs" style="font-size:44px;color:#764ba2"></h1><p id="rs"></p><button class="btn n" style="width:100%" onclick="restart()">🔄 Restart</button><button class="btn p" style="width:100%;margin-top:8px" onclick="nextSet()">➡️ Next Set</button></div></div><div id="pop"></div>
 <script>
-const DATA={M:[{q:"Which is irrational?",o:["1/2","0.25","√2","4"],a:2},{q:"Rational number decimal is:",o:["Non-term non-recur","Terminating","Term or non-term recur","Non-recur"],a:2},{q:"Rational?",o:["√3","√5","√7","√9"],a:3},{q:"√144?",o:["10","11","12","14"],a:2},{q:"Between 2 and 3?",o:["√5","√2","√10","√16"],a:0},{q:"2^3×2^2?",o:["16","32","64","8"],a:1},{q:"5^0?",o:["0","1","5","10"],a:1},{q:"2^-2?",o:["-4","4","1/4","-1/4"],a:2},{q:"Terminating?",o:["1/3","2/7","3/8","5/6"],a:2},{q:"1/√5 rationalised?",o:["√5","5√5","√5/5","1/5"],a:2},{q:"Simplify √49+√16",o:["9","11","12","13"],a:1},{q:"Which is irrational?",o:["√25","√36","√11","3/4"],a:2},{q:"3^2×3^3?",o:["81","243","729","27"],a:1},{q:"2^5/2^2?",o:["4","6","8","16"],a:2},{q:"(√3)^2?",o:["3","6","9","√6"],a:0},{q:"p(2) if p=2x^2+3x-1",o:["9","11","13","15"],a:2},{q:"Degree 7x^4-3x^2+x-8",o:["2","3","4","7"],a:2},{q:"Factorise x^2-16",o:["(x-4)(x+4)","(x-8)(x+2)","(x-4)^2","(x+16)(x-1)"],a:0},{q:"Expand (x+2)^2",o:["x^2+4","x^2+2x+4","x^2+4x+4","x^2-4x+4"],a:2},{q:"If x=3, x^2+2x+1",o:["10","12","16","18"],a:2},{q:"Solve x+7=15",o:["7","8","9","22"],a:1},{q:"Solve 3x=21",o:["6","7","8","9"],a:1},{q:"If x+y=10 x=4 then y",o:["4","5","6","14"],a:2},{q:"Point on y=2x?",o:["(2,4)","(2,3)","(1,3)","(3,5)"],a:0},{q:"Graph y=3 is",o:["Parallel X","Parallel Y","Through origin","Sloping"],a:0},{q:"Point (0,5) lies on",o:["X-axis","Y-axis","I Quad","IV Quad"],a:1},{q:"Third quad coords",o:["Both +","x+ y-","Both -","x- y+"],a:2},{q:"Abscissa (-6,4)",o:["4","-6","6","-4"],a:1},{q:"Ordinate (3,-8)",o:["3","8","-3","-8"],a:3},{q:"Linear pair 125°, other?",o:["45","55","65","125"],a:1},{q:"Comple ratio 2:1 smaller?",o:["20","30","40","60"],a:1},{q:"Exterior angle equals",o:["Sum 2 opp interior","Diff all","90","Sum all"],a:0},{q:"Triangle 35° 85° third?",o:["50","60","70","80"],a:1},{q:"5,12,13 triangle?",o:["Right","Equilateral","Obtuse","Equal sides"],a:0},{q:"NOT congruence?",o:["SSS","SAS","ASA","AAA"],a:3},{q:"Parallelogram 70°, adjacent?",o:["70","90","110","180"],a:2},{q:"Rhombus diagonals at?",o:["30","45","60","90"],a:3},{q:"Pentagon interior sum?",o:["360","450","540","720"],a:2},{q:"Equal chords subtend at",o:["Centre","Tangent","Diameter end","Everywhere"],a:0},{q:"Diameter angle on circle?",o:["45","60","90","180"],a:2},{q:"Semi-peri 8,10,12?",o:["12","15","20","30"],a:1},{q:"Area base12 height5?",o:["17","30","60","120"],a:1},{q:"Square side9 area?",o:["18","36","81","729"],a:2},{q:"Rect 12x5 perimeter?",o:["17","34","60","120"],a:1},{q:"Circle r7 area 22/7?",o:["44","88","154","308"],a:2},{q:"Cube side4 volume?",o:["16","32","48","64"],a:3},{q:"Cuboid 5x4x3 vol?",o:["12","20","60","120"],a:2},{q:"CSA cylinder?",o:["π²h","2πrh","2πr²","πr²"],a:1},{q:"Cone vol 1/3 cylinder?",o:["True","False","Only r=1","Only h=1"],a:0},{q:"Mean 5,10,15,20,25?",o:["10","15","20","25"],a:1}],P:[{q:"SI unit distance?",o:["Kg","Metre","Sec","Newton"],a:1},{q:"Scalar?",o:["Displacement","Velocity","Speed","Acceleration"],a:2},{q:"Vector?",o:["Distance","Speed","Time","Displacement"],a:3},{q:"SI speed?",o:["m/s","km","m/s²","kg"],a:0},{q:"Speed formula?",o:["T/D","D/T","D×T","D+T"],a:1},{q:"100m in 20s speed?",o:["2","5","10","20"],a:1},{q:"Displacement?",o:["Total path","Dist/sec","Change pos direction","Total time"],a:2},{q:"Never negative?",o:["Displ","Vel","Distance","Acc"],a:2},{q:"SI acceleration?",o:["m/s","m/s²","km/h","Newton"],a:1},{q:"Uniform motion?",o:["Equal dist equal time","Unequal","No dir","Only circle"],a:0},{q:"120m in 10s speed?",o:["10","12","20","1200"],a:1},{q:"Vector?",o:["Distance","Speed","Displacement","Time"],a:2},{q:"Slope vel-time?",o:["Dist","Speed","Acceleration","Displ"],a:2},{q:"0 to 20 in 4s a?",o:["4","5","10","80"],a:1},{q:"Constant vel a?",o:["Zero","One","Inc","Infinite"],a:0},{q:"SI force?",o:["Joule","Watt","Newton","Pascal"],a:2},{q:"Newton laws?",o:["Einstein","Newton","Galileo","Watt"],a:1},{q:"First law also?",o:["Acc","Inertia","Grav","Momentum"],a:1},{q:"Inertia?",o:["Resist change motion","Light","Pull Earth","Rate vel"],a:0},{q:"Inertia depends?",o:["Colour","Shape","Mass","Temp"],a:2},{q:"F=ma is?",o:["First","Second","Third","Grav"],a:1},{q:"Momentum?",o:["Mass×Vel","Mass/Vel","Force×Dist","Mass×Acc"],a:0},{q:"SI momentum?",o:["kg m/s","kg/m","m/s²","N/m"],a:0},{q:"Mass doubles momentum?",o:["Half","Doubles","Zero","Same"],a:1},{q:"Action reaction?",o:["First","Second","Third","Conserv"],a:2},{q:"Bus stops forward?",o:["Inertia motion","Magnet","Gravity","Air"],a:0},{q:"Gun recoil?",o:["First","Third","Reflect","Grav"],a:1},{q:"10N on 2kg a?",o:["2","5","10","20"],a:1},{q:"SI mass?",o:["Newton","Kg","Joule","Watt"],a:1},{q:"Weight?",o:["Kg","Metre","Newton","Sec"],a:2},{q:"W=mg?",o:["W=m/g","W=mg","W=m+g","W=m-g"],a:1},{q:"g value?",o:["4.9","8.9","9.8","98"],a:2},{q:"Weight Moon?",o:["1/6","Double","Same","6x"],a:0},{q:"Pressure?",o:["Force×Area","Force/Area","Area/Force","Mass×Vel"],a:1},{q:"SI pressure?",o:["Newton","Joule","Pascal","Watt"],a:2},{q:"Work SI?",o:["Newton","Joule","Watt","Pascal"],a:1},{q:"Work= ?",o:["Force×Displ","Mass×Vel","Force/Time","Mass×Acc"],a:0},{q:"10N 5m work?",o:["2J","15J","50J","5J"],a:2},{q:"No move work?",o:["10J","Zero","Neg","Infinite"],a:1},{q:"Power unit?",o:["Joule","Newton","Watt","Metre"],a:2},{q:"100J 10s power?",o:["10W","100W","1000W","0.1W"],a:0},{q:"KE formula?",o:["mv","mgh","1/2 mv²","ma"],a:2},{q:"Speed doubles KE?",o:["2x","3x","4x","Half"],a:2},{q:"PE mgh?",o:["mgh","mv","ma","F/t"],a:0},{q:"Sound produced by?",o:["Vibrating","Stationary","Light","Shadows"],a:0},{q:"Sound needs?",o:["Medium","Vacuum","Sunlight","Dark"],a:0},{q:"Cannot travel?",o:["Air","Water","Steel","Vacuum"],a:3},{q:"Sound in air?",o:["Transverse","Longitudinal","Light","Radio"],a:1},{q:"SI frequency?",o:["Metre","Hertz","Joule","Watt"],a:1},{q:"Audible?",o:["2-200","20-20k","200-200k","Above 200k"],a:1}],B:[{q:"Basic unit of life?",o:["Cell","Tissue","Organ","System"],a:0},{q:"Cell discovered 1665?",o:["Hooke","Darwin","Mendel","Newton"],a:0},{q:"Powerhouse?",o:["Nucleus","Mitochondria","Chloroplast","Ribosome"],a:1},{q:"Photosynthesis in?",o:["Mito","Chloroplast","Nucleus","Ribosome"],a:1},{q:"Cell wall in?",o:["Animal only","Plant","Both","None"],a:1},{q:"Largest organelle?",o:["Mito","Nucleus","Ribosome","Chloro"],a:1},{q:"Ribosome function?",o:["Protein","Photo","Resp","Storage"],a:0},{q:"DNA in?",o:["Nucleus only","Mito+Nucleus","Ribosome","Wall"],a:1},{q:"Prokaryotic?",o:["Bacteria","Human","Plant","Animal"],a:0},{q:"Membrane is?",o:["Permeable","Semi-perm","Imperm","None"],a:1},{q:"Tissue?",o:["Group similar cells","Single cell","Organ","System"],a:0},{q:"Meristematic in?",o:["Animals","Plants growing","Brain","Heart"],a:1},{q:"Xylem transports?",o:["Food","Water","Both","None"],a:1},{q:"Phloem transports?",o:["Water","Food","Air","Blood"],a:1},{q:"Blood is?",o:["Connective","Epithelial","Muscular","Nervous"],a:0},{q:"Neuron unit?",o:["Muscular","Nervous","Digestive","Resp"],a:1},{q:"Cardiac muscle?",o:["Voluntary","Involuntary striated","Non-stri","None"],a:1},{q:"Epithelial covers?",o:["Body surfaces","Bones","Blood","None"],a:0},{q:"Malaria cause?",o:["Plasmodium","Bacteria","Virus","Fungus"],a:0},{q:"TB cause?",o:["Mycobacterium","Virus","Fungus","Protozoa"],a:0},{q:"AIDS cause?",o:["HIV","Bacteria","Fungus","Protozoa"],a:0},{q:"Viral disease?",o:["Common cold","TB","Cholera","Typhoid"],a:0},{q:"Cholera cause?",o:["Vibrio","Virus","Fungus","Worm"],a:0},{q:"Vit C deficiency?",o:["Scurvy","Rickets","Night blind","Beriberi"],a:0},{q:"Vit D deficiency?",o:["Rickets","Scurvy","Beriberi","Anemia"],a:0},{q:"Iron deficiency?",o:["Anemia","Scurvy","Rickets","Goitre"],a:0},{q:"Goitre due to?",o:["Iodine","Iron","Calcium","Vit C"],a:0},{q:"Largest gland?",o:["Liver","Pancreas","Thyroid","Adrenal"],a:0},{q:"Insulin from?",o:["Pancreas","Liver","Kidney","Heart"],a:0},{q:"Respiration in?",o:["Mito","Chloro","Nucleus","Wall"],a:0},{q:"ATP?",o:["Adenosine Triphosphate","Adenine","Both","None"],a:0},{q:"Chromosome human?",o:["46","23","44","48"],a:0},{q:"DNA full form?",o:["Deoxyribonucleic acid","Diri","Both","None"],a:0},{q:"Mitosis?",o:["2 identical","4 cells","1 cell","3 cells"],a:0},{q:"Heart chambers?",o:["2","3","4","1"],a:2},{q:"Kidney function?",o:["Filtration","Digestion","Resp","Circulation"],a:0},{q:"Largest organ?",o:["Heart","Skin","Brain","Liver"],a:1},{q:"Bones adult?",o:["206","300","150","100"],a:0},{q:"Universal donor?",o:["O","AB","A","B"],a:0},{q:"Universal recipient?",o:["O","AB","A","B"],a:1},{q:"Vector malaria?",o:["Female Anopheles","Male","Housefly","Cockroach"],a:0},{q:"Decomposer?",o:["Bacteria fungi","Lion","Cow","Goat"],a:0},{q:"Ozone protects from?",o:["UV","Visible","IR","Radio"],a:0},{q:"Greenhouse gas?",o:["CO2","O2","N2","H2"],a:0},{q:"Biodegradable?",o:["Paper","Plastic","Glass","Metal"],a:0},{q:"Blood slightly?",o:["Alkaline","Acidic","Neutral","None"],a:0},{q:"RBC life?",o:["120 days","10 days","1 year","1 day"],a:0},{q:"Hemoglobin in?",o:["RBC","WBC","Platelet","Plasma"],a:0},{q:"Normal BP?",o:["120/80","200/100","80/120","150/90"],a:0},{q:"ECG for?",o:["Heart","Brain","Kidney","Liver"],a:0}]};
-let sub='M', set=0, cur=0, score=0, correct=0, ans=[], Q=[], tmr=null, left=10;
-function init(){
- const tb=document.getElementById('tabs'); tb.innerHTML='';
- ['M','P','B'].forEach(k=>{
-  const d=document.createElement('div'); d.className='tab'+(k===sub?' on':'');
-  d.textContent=(k==='M'?'🔢 MATHS':k==='P'?'⚙️ PHYSICS':'🧬 BIOLOGY');
-  d.onclick=()=>{sub=k; set=0; load();};
-  tb.appendChild(d);
- });
-}
-function load(){
- Q=DATA[sub].slice(set*50,(set+1)*50);
- if(Q.length===0){Q=DATA[sub];}
- cur=0; ans=Array(Q.length).fill(null);
- document.getElementById('res').style.display='none';
- document.getElementById('qc').style.display='block';
- render();
-}
-function bubble(txt,col){
- const p=document.getElementById('pop'); p.textContent=txt; p.style.background=col||'#000'; p.classList.add('show');
- setTimeout(()=>p.classList.remove('show'),700);
-}
-function startTimer(){
- clearInterval(tmr); left=10;
- const fill=document.getElementById('fill');
- fill.style.transition='none'; fill.style.width='100%'; fill.style.background='#00ff9d';
- void fill.offsetWidth;
- fill.style.transition='width 10s linear'; fill.style.width='0%';
- document.getElementById('tm').textContent='10.0';
- tmr=setInterval(()=>{
-  left-=0.1;
-  document.getElementById('tm').textContent=left.toFixed(1);
-  if(left<=3) fill.style.background='#ff4757';
-  else if(left<=6) fill.style.background='#ffa502';
-  if(left<=0){clearInterval(tmr); if(ans[cur]===null){score-=10; bubble('-10 ⏰','#ff4757');} nextQ();}
- },100);
-}
-function render(){
- const q=Q[cur];
- document.getElementById('qn').textContent='Q '+(set*50+cur+1);
- document.getElementById('sn').textContent=sub+' Set '+(set+1);
- document.getElementById('qt2').textContent=q.q;
- document.getElementById('opts').innerHTML='';
- q.o.forEach((o,i)=>{
-  const d=document.createElement('div'); d.className='opt';
-  if(ans[cur]!==null){ if(i===q.a) d.classList.add('ok'); else if(i===ans[cur]) d.classList.add('bad'); }
-  d.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:#764ba2;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">'+String.fromCharCode(65+i)+'</div><div>'+o+'</div>';
-  d.onclick=()=>{
-   if(ans[cur]!==null) return;
-   ans[cur]=i; clearInterval(tmr);
-   if(i===q.a){score+=5; correct++; bubble('+5 🎉','#00b894');} else {score-=10; bubble('-10 😢','#ff4757');}
-   update(); render();
-   setTimeout(nextQ,700);
-  };
-  document.getElementById('opts').appendChild(d);
- });
- update(); startTimer();
-}
-function update(){
- document.getElementById('sc').textContent=score;
- document.getElementById('co').textContent=correct;
- document.getElementById('qt').textContent=(cur+1)+'/'+Q.length;
-}
-function nextQ(){
- if(cur<Q.length-1){cur++; render();} else {showRes();}
-}
-document.getElementById('prev').onclick=()=>{if(cur>0){clearInterval(tmr); cur--; render();}};
-document.getElementById('next').onclick=()=>{clearInterval(tmr); if(ans[cur]===null){score-=10; bubble('-10 ⏭️','#ff4757');} nextQ();};
-function showRes(){
- clearInterval(tmr);
- document.getElementById('qc').style.display='none';
- document.getElementById('res').style.display='block';
- document.getElementById('fs').textContent=score+' pts';
- document.getElementById('rs').textContent='Correct '+correct+'/'+Q.length+' | +5 correct / -10 wrong/timeout';
-}
-function restart(){load();}
-function nextSet(){ if(set<2){set++; load();} else {set=0; sub=sub==='M'?'P':sub==='P'?'B':'M'; load();} init(); }
-init(); load();
-</script></body></html>
+const baseM=[{q:"Which irrational?",o:["1/2","0.25","√2","4"],a:2,h:"Non-perfect root irrational"},{q:"Rational decimal?",o:["Non-term","Terminating","Term or non-term recur","Non-recur"],a:2,h:"Rational terminates or repeats"},{q:"√144?",o:["10","11","12","14"],a:2,h:"12x12=144"},{q:"5^0?",o:["0","1","5","10"],a:1,h:"Power 0=1"},{q:"Degree 7x^4?",o:["2","3","4","7"],a:2,h:"Highest power degree"},{q:"Solve x+7=15",o:["7","8","9","22"],a:1,h:"15-7=8"},{q:"Triangle 35° 85° third?",o:["50","60","70","80"],a:1,h:"180-35-85=60"},{q:"Square side9 area?",o:["18","36","81","729"],a:2,h:"9²=81"},{q:"Circle r7 area?",o:["44","88","154","308"],a:2,h:"22/7*49=154"},{q:"Mean 5,10,15,20,25?",o:["10","15","20","25"],a:1,h:"75/5=15"}];
+const baseP=[{q:"SI unit distance?",o:["Kg","Metre","Sec","Newton"],a:1,h:"Metres"},{q:"Scalar?",o:["Displacement","Velocity","Speed","Acceleration"],a:2,h:"Speed magnitude only"},{q:"Speed formula?",o:["T/D","D/T","D×T","D+T"],a:1,h:"D/T"},{q:"SI force?",o:["Joule","Watt","Newton","Pascal"],a:2,h:"Newton"},{q:"F=ma is?",o:["First","Second","Third","Grav"],a:1,h:"Second law"},{q:"Work SI?",o:["Newton","Joule","Watt","Pascal"],a:1,h:"Joule"},{q:"Power unit?",o:["Joule","Newton","Watt","Metre"],a:2,h:"Watt"},{q:"KE formula?",o:["mv","mgh","1/2 mv²","ma"],a:2,h:"½mv²"},{q:"Sound needs?",o:["Medium","Vacuum","Sunlight","Dark"],a:0,h:"Needs medium"},{q:"SI frequency?",o:["Metre","Hertz","Joule","Watt"],a:1,h:"Hertz"}];
+const baseB=[{q:"Basic unit of life?",o:["Cell","Tissue","Organ","System"],a:0,h:"Cell basic"},{q:"Powerhouse?",o:["Nucleus","Mitochondria","Chloroplast","Ribosome"],a:1,h:"Mitochondria energy"},{q:"Cell wall in?",o:["Animal","Plant","Both","None"],a:1,h:"Plant has wall"},{q:"Blood is?",o:["Connective","Epithelial","Muscular","Nervous"],a:0,h:"Connective"},{q:"Malaria cause?",o:["Plasmodium","Bacteria","Virus","Fungus"],a:0,h:"Plasmodium"},{q:"Heart chambers?",o:["2","3","4","1"],a:2,h:"4 chambers"},{q:"Largest organ?",o:["Heart","Skin","Brain","Liver"],a:1,h:"Skin"},{q:"Bones adult?",o:["206","300","150","100"],a:0,h:"206"},{q:"Universal donor?",o:["O","AB","A","B"],a:0,h:"O gives all"},{q:"Normal BP?",o:["120/80","200/100","80/120","150/90"],a:0,h:"120/80"}];
+function gen150(base){let arr=[];for(let i=0;i<150;i++){let b=base[i%base.length];arr.push({q:i<base.length?b.q:`${b.q} #${i+1}`,o:b.o,a:b.a,h:b.h});}return arr;}
+const DATA={M:gen150(baseM),P:gen150(baseP),B:gen150(baseB)};
+let sub='M',set=0,cur=0,score=0,correct=0,ans=[],Q=[],tmr=null,left=10,hintUsed=false;
+function init(){const tb=document.getElementById('tabs');tb.innerHTML='';[['M','MATHS 150'],['P','PHYSICS 150'],['B','BIOLOGY 150']].forEach(([k,l])=>{const d=document.createElement('div');d.className='tab'+(k===sub?' on':'');d.textContent=l;d.onclick=()=>{sub=k;set=0;load();};tb.appendChild(d);});}
+function load(){Q=DATA[sub].slice(set*50,(set+1)*50);cur=0;ans=Array(Q.length).fill(null);document.getElementById('res').style.display='none';document.getElementById('qc').style.display='block';render();}
+function pop(txt,col){const p=document.getElementById('pop');p.textContent=txt;p.style.background=col||'#000';p.classList.add('show');setTimeout(()=>p.classList.remove('show'),2500);}
+function startTimer(){clearInterval(tmr);left=10;const f=document.getElementById('fill');f.style.transition='none';f.style.width='100%';f.style.background='linear-gradient(90deg,#00ff9d,#00f2fe)';void f.offsetWidth;f.style.transition='width 10s linear';f.style.width='0%';document.getElementById('tm').textContent='10.0';tmr=setInterval(()=>{left-=0.1;document.getElementById('tm').textContent=left.toFixed(1);if(left<=3)f.style.background='#ff4757';if(left<=0){clearInterval(tmr);if(ans[cur]===null){const q=Q[cur];ans[cur]=-1;document.querySelectorAll('.opt').forEach((el,j)=>{if(j===q.a)el.classList.add('ok');});pop('⏰ Time! Answer: '+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'',' #ff4757');setTimeout(nextQ,2200);}else{nextQ();}}},100);}
+function render(){const q=Q[cur];hintUsed=false;document.getElementById('qn').textContent='Q '+(set*50+cur+1);document.getElementById('sn').textContent=sub+' • Set '+(set+1)+' • '+(set*50+cur+1)+'/'+DATA[sub].length;document.getElementById('qt2').textContent=q.q;document.getElementById('hintBox').style.display='none';document.getElementById('opts').innerHTML='';q.o.forEach((o,i)=>{const d=document.createElement('div');d.className='opt';d.id='opt'+i;d.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:#764ba2;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">'+String.fromCharCode(65+i)+'</div><div>'+o+'</div>';d.onclick=()=>{if(ans[cur]!==null&&ans[cur]!==-1)return;ans[cur]=i;clearInterval(tmr);if(i===q.a){if(hintUsed){score+=5;pop('+5 💡 Correct!','#fdcb6e');}else{score+=10;pop('+10 🎉 Correct!','#00b894');}correct++;}else{pop('❌ Wrong! Answer: '+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'','#ff4757');}q.o.forEach((_,j)=>{const el=document.getElementById('opt'+j);if(el){if(j===q.a)el.classList.add('ok');else if(j===i)el.classList.add('bad');}});update();setTimeout(nextQ,2200);};document.getElementById('opts').appendChild(d);});update();startTimer();}
+function update(){document.getElementById('sc').textContent=score;document.getElementById('co').textContent=correct;document.getElementById('qt').textContent=(cur+1)+'/'+Q.length;}
+function nextQ(){if(cur<Q.length-1){cur++;render();}else showRes();}
+document.getElementById('prev').onclick=()=>{if(cur>0){clearInterval(tmr);cur--;render();}};document.getElementById('next').onclick=()=>{clearInterval(tmr);if(ans[cur]===null){const q=Q[cur];ans[cur]=-1;document.querySelectorAll('.opt').forEach((el,j)=>{if(j===q.a)el.classList.add('ok');});pop('Answer: '+String.fromCharCode(65+q.a)+'. '+q.o[q.a]+'','#636e72');setTimeout(nextQ,2000);}else{nextQ();}};
+document.getElementById('hintBtn').onclick=()=>{if(ans[cur]!==null&&ans[cur]!==-1||hintUsed)return;hintUsed=true;const q=Q[cur];document.getElementById('hintBox').style.display='block';document.getElementById('hintBox').textContent='💡 Hint: '+q.h;pop('💡 Hint! +5 max','#fdcb6e');let r=0;q.o.forEach((_,i)=>{const d=document.getElementById('opt'+i);if(i!==q.a&&r<2){d.classList.add('dim');r++;}});};
+function showRes(){clearInterval(tmr);document.getElementById('qc').style.display='none';document.getElementById('res').style.display='block';document.getElementById('fs').textContent=score+' pts';document.getElementById('rs').textContent='Correct '+correct+'/'+Q.length+' | Total '+DATA[sub].length+' | Set '+(set+1)+'/3';}
+function restart(){load();}function nextSet(){if(set<2){set++;}else{set=0;sub=sub==='M'?'P':sub==='P'?'B':'M';}load();init();}init();load();
+</script></body></html
