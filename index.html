@@ -1,40 +1,33 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Masterpiece Learning App</title>
-
 <style>
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
-
 body {
   margin: 0;
   background: #f2f6ff;
   color: #222;
 }
-
 header {
   background: linear-gradient(135deg, #315bea, #743cff);
   color: white;
   padding: 22px;
   text-align: center;
 }
-
 header h1 {
   margin: 0;
 }
-
 .container {
   max-width: 800px;
   margin: auto;
   padding: 20px;
 }
-
 .card {
   background: white;
   padding: 20px;
@@ -42,7 +35,6 @@ header h1 {
   border-radius: 18px;
   box-shadow: 0 5px 18px rgba(0,0,0,.08);
 }
-
 select, button {
   width: 100%;
   padding: 13px;
@@ -51,49 +43,40 @@ select, button {
   border: 1px solid #ccc;
   font-size: 16px;
 }
-
 button {
   background: #315bea;
   color: white;
   border: none;
   cursor: pointer;
 }
-
 button:hover {
   opacity: .9;
 }
-
 .option {
   background: #eef2ff;
   color: #222;
   text-align: left;
 }
-
 .option.correct {
   background: #b9f6c3;
 }
-
 .option.wrong {
   background: #ffbcbc;
 }
-
 .timer {
   font-size: 22px;
   font-weight: bold;
   text-align: center;
   margin: 10px;
 }
-
 .score {
   font-size: 20px;
   font-weight: bold;
   text-align: center;
 }
-
 .hidden {
   display: none;
 }
-
 .hint {
   background: #fff4b8;
   padding: 12px;
@@ -102,21 +85,14 @@ button:hover {
 }
 </style>
 </head>
-
 <body>
-
 <header>
   <h1>📚 Masterpiece Learning App</h1>
   <p>Learn • Practice • Test • Improve</p>
 </header>
-
 <div class="container">
-
-<!-- HOME -->
 <div id="home" class="card">
-
   <h2>🎓 Select Your Class</h2>
-
   <select id="classSelect">
     <option value="">Select Class</option>
     <option value="1">1st Standard</option>
@@ -130,9 +106,7 @@ button:hover {
     <option value="9">9th Standard</option>
     <option value="10">10th Standard</option>
   </select>
-
   <h2>📖 Select Subject</h2>
-
   <select id="subjectSelect">
     <option value="">Select Subject</option>
     <option value="Maths">Mathematics</option>
@@ -141,513 +115,99 @@ button:hover {
     <option value="Social">Social Studies</option>
     <option value="Telugu">Telugu</option>
   </select>
-
   <button onclick="startQuiz()">🚀 Start MCQ Test</button>
-
 </div>
-
-<!-- QUIZ -->
 <div id="quiz" class="card hidden">
-
   <div class="timer">
     ⏱️ Time: <span id="time">30</span> sec
   </div>
-
   <div class="score">
     Score: <span id="score">0</span>
   </div>
-
   <h3 id="questionNumber"></h3>
-
   <h2 id="question"></h2>
-
   <div id="options"></div>
-
   <button onclick="showHint()">💡 Hint</button>
-
   <div id="hint" class="hint hidden"></div>
-
   <button onclick="nextQuestion()">➡️ Next Question</button>
-
 </div>
-
-<!-- RESULT -->
 <div id="result" class="card hidden">
-
   <h2>🎉 Test Completed!</h2>
-
   <p class="score">
     Your Score: <span id="finalScore"></span>
   </p>
-
   <button onclick="location.reload()">🔄 Try Again</button>
-
 </div>
-
 </div>
-
 <script>
-
-/* =========================
-   QUESTION BANK
-   ========================= */
-
 const questionBank = {
-
   "1": {
-
     "Maths": [
-
-      {
-        q: "What is 2 + 3?",
-        options: ["4", "5", "6", "7"],
-        answer: 1,
-        hint: "Count two objects and then three more."
-      },
-
-      {
-        q: "What comes after 9?",
-        options: ["8", "10", "11", "12"],
-        answer: 1,
-        hint: "Count forward from 9."
-      }
-
+      { q: "What is 2 + 3?", options: ["4", "5", "6", "7"], answer: 1, hint: "Count two objects and then three more." },
+      { q: "What comes after 9?", options: ["8", "10", "11", "12"], answer: 1, hint: "Count forward from 9." }
     ],
-
     "Science": [
-
-      {
-        q: "Which part of the plant is usually green?",
-        options: ["Root", "Leaf", "Flower", "Seed"],
-        answer: 1,
-        hint: "It helps the plant make food."
-      }
-
+      { q: "Which part of the plant is usually green?", options: ["Root", "Leaf", "Flower", "Seed"], answer: 1, hint: "It helps the plant make food." }
     ],
-
     "English": [
-
-      {
-        q: "Which is a vowel?",
-        options: ["B", "C", "A", "D"],
-        answer: 2,
-        hint: "The vowel is one of A, E, I, O, U."
-      }
-
+      { q: "Which is a vowel?", options: ["B", "C", "A", "D"], answer: 2, hint: "The vowel is one of A, E, I, O, U." }
     ]
-
   },
-
   "2": {
-
     "Maths": [
-
-      {
-        q: "What is 5 + 4?",
-        options: ["7", "8", "9", "10"],
-        answer: 2,
-        hint: "Add five and four."
-      }
-
+      { q: "What is 5 + 4?", options: ["7", "8", "9", "10"], answer: 2, hint: "Add five and four." }
     ]
-
   },
-
   "9": {
-
     "Maths": [
-
-      {
-        q: "What is the value of 2³?",
-        options: ["6", "8", "9", "12"],
-        answer: 1,
-        hint: "2 × 2 × 2."
-      }
-
+      { q: "What is the value of 2³?", options: ["6", "8", "9", "12"], answer: 1, hint: "2 × 2 × 2." }
     ],
-
     "Science": [
-
-      {
-        q: "What is the SI unit of force?",
-        options: ["Joule", "Newton", "Watt", "Pascal"],
-        answer: 1,
-        hint: "It is named after a famous scientist."
-      }
-
+      { q: "What is the SI unit of force?", options: ["Joule", "Newton", "Watt", "Pascal"], answer: 1, hint: "It is named after a famous scientist." }
     ]
-
   },
-
   "10": {
-
     "Science": [
-
-      {
-        q: "Which organelle is known as the powerhouse of the cell?",
-        options: [
-          "Nucleus",
-          "Mitochondria",
-          "Ribosome",
-          "Golgi apparatus"
-        ],
-        answer: 1,
-        hint: "It produces most of the cell's usable energy."
-      }
-
+      { q: "Which organelle is known as the powerhouse of the cell?", options: ["Nucleus","Mitochondria","Ribosome","Golgi apparatus"], answer: 1, hint: "It produces most of the cell's usable energy." }
     ]
-
   }
-
 };
-
-
-/* =========================
-   QUIZ VARIABLES
-   ========================= */
 
 let questions = [];
 let current = 0;
 let score = 0;
 let timeLeft = 30;
 let timer;
-
-
-/* =========================
-   START QUIZ
-   ========================= */
+let hintUsed = false; // NEW
 
 function startQuiz() {
-
-  const selectedClass =
-    document.getElementById("classSelect").value;
-
-  const selectedSubject =
-    document.getElementById("subjectSelect").value;
-
+  const selectedClass = document.getElementById("classSelect").value;
+  const selectedSubject = document.getElementById("subjectSelect").value;
   if (!selectedClass || !selectedSubject) {
     alert("Please select class and subject.");
     return;
   }
-
-  questions =
-    questionBank[selectedClass]?.[selectedSubject] || [];
-
+  questions = questionBank[selectedClass]?.[selectedSubject] || [];
   if (questions.length === 0) {
-    alert(
-      "Question bank for this class and subject is not added yet."
-    );
+    alert("Question bank for this class and subject is not added yet.");
     return;
   }
-
   current = 0;
   score = 0;
-
-  document.getElementById("home")
-    .classList.add("hidden");
-
-  document.getElementById("quiz")
-    .classList.remove("hidden");
-
-  document.getElementById("score")
-    .innerText = score;
-
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  document.getElementById("score").innerText = score;
   loadQuestion();
 }
 
-
-/* =========================
-   LOAD QUESTION
-   ========================= */
-
 function loadQuestion() {
-
   clearInterval(timer);
-
   timeLeft = 30;
-
-  document.getElementById("time")
-    .innerText = timeLeft;
-
+  hintUsed = false; // RESET HINT FOR NEW QUESTION
+  document.getElementById("time").innerText = timeLeft;
   const q = questions[current];
-
-  document.getElementById("questionNumber")
-    .innerText =
-    "Question " + (current + 1) +
-    " of " + questions.length;
-
-  document.getElementById("question")
-    .innerText = q.q;
-
-  document.getElementById("hint")
-    .classList.add("hidden");
-
-  document.getElementById("hint")
-    .innerText = q.hint;
-
-  const optionsDiv =
-    document.getElementById("options");
-
-  optionsDiv.innerHTML = "";
-
-  q.options.forEach((option, index) => {
-
-    const button =
-      document.createElement("button");
-
-    button.innerText = option;
-
-    button.className = "option";
-
-    button.onclick = () =>
-      checkAnswer(index, button);
-
-    optionsDiv.appendChild(button);
-
-  });
-
-  timer = setInterval(() => {
-
-    timeLeft--;
-
-    document.getElementById("time")
-      .innerText = timeLeft;
-
-    if (timeLeft <= 0) {
-
-      clearInterval(timer);
-
-      nextQuestion();
-
-    }
-
-  }, 1000);
-
-}
-
-
-/* =========================
-   CHECK ANSWER
-   ========================= */
-
-function checkAnswer(selected, button) {
-
-  clearInterval(timer);
-
-  const correct =
-    questions[current].answer;
-
-  const allButtons =
-    document.querySelectorAll(".option");
-
-  allButtons.forEach(b =>
-    b.disabled = true
-  );
-
-  if (selected === correct) {
-
-    button.classList.add("correct");
-
-    score++;
-
-    document.getElementById("score")
-      .innerText = score;
-
-  } else {
-
-    button.classList.add("wrong");
-
-    allButtons[correct]
-      .classList.add("correct");
-
-  }
-
-}
-
-
-/* =========================
-   HINT
-   ========================= */
-
-function showHint() {
-
-  document.getElementById("hint")
-    .classList.remove("hidden");
-
-}
-
-
-/* =========================
-   NEXT QUESTION
-   ========================= */
-
-function nextQuestion() {
-
-  current++;
-
-  if (current >= questions.length) {
-
-    finishQuiz();
-
-  } else {
-
-    loadQuestion();
-
-  }
-
-}
-
-
-/* =========================
-   FINISH
-   ========================= */
-
-function finishQuiz() {
-
-  clearInterval(timer);
-
-  document.getElementById("quiz")
-    .classList.add("hidden");
-
-  document.getElementById("result")
-    .classList.remove("hidden");
-
-  document.getElementById("finalScore")
-    .innerText =
-    score + " / " + questions.length;
-
-}
-
-</script>
-
-</body>
-</html>>MTB FAST - 10 Sec</title>
-<style>
-body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;min-height:100vh}
-.h{position:sticky;top:0;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);padding:12px;z-index:10}
-.tabs{display:flex;gap:6px;overflow:auto;margin-top:8px}
-.tab{padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.2);font-weight:700;cursor:pointer;white-space:nowrap}
-.tab.on{background:#fff;color:#764ba2}
-.stats{display:flex;gap:6px;margin-top:8px}
-.s{flex:1;background:#fff;color:#000;border-radius:12px;padding:6px;text-align:center}
-.s b{display:block;font-size:18px}
-.bar{height:10px;background:rgba(255,255,255,.3);border-radius:10px;margin-top:8px;overflow:hidden}
-#fill{height:100%;width:100%;background:#00ff9d;transition:width 10s linear}
-.card{margin:12px;background:#fff;color:#222;border-radius:18px;padding:16px}
-.opt{padding:12px;border:2px solid #eee;border-radius:12px;margin:8px 0;cursor:pointer;font-weight:600;display:flex;gap:8px}
-.opt.ok{border-color:#00b894;background:#d4ffe8}
-.opt.bad{border-color:#ff4757;background:#ffdde0}
-.badge{background:#764ba2;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
-#pop{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);background:#000;color:#fff;padding:15px 30px;border-radius:30px;font-size:32px;font-weight:800;transition:.4s;z-index:99}
-#pop.show{transform:translate(-50%,-50%) scale(1)}
-.btn{flex:1;padding:12px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
-.btn.n{background:#764ba2;color:#fff}
-.btn.p{background:#fff;border:2px solid #ddd}
-</style></head><body>
-<div class="h">
-<div style="font-weight:800;font-size:18px">🎨 MTB FAST • 450 Qs • 10 SEC ⏱️</div>
-<div style="font-size:11px;opacity:.9">M=Maths | T=Physics | B=Biology • +5 / -10 • Colourful</div>
-<div class="tabs" id="tabs"></div>
-<div class="stats">
-<div class="s"><b id="sc">0</b><span style="font-size:10px">SCORE</span></div>
-<div class="s"><b id="co">0</b><span style="font-size:10px">CORRECT</span></div>
-<div class="s"><b id="qt">1/50</b><span style="font-size:10px">Q</span></div>
-<div class="s"><b id="tm">10</b><span style="font-size:10px">SEC</span></div>
-</div>
-<div class="bar"><div id="fill"></div></div>
-</div>
-<div id="wrap" style="max-width:700px;margin:auto">
-<div class="card" id="qc">
-<div style="display:flex;justify-content:space-between"><span class="badge" id="qn">Q1</span><span id="sn" style="font-size:11px;font-weight:700"></span></div>
-<div id="qt2" style="font-weight:700;margin:12px 0;font-size:16px"></div>
-<div id="opts"></div>
-<div style="display:flex;gap:8px;margin-top:12px"><button class="btn p" id="prev">← Prev</button><button class="btn n" id="next">Skip →</button></div>
-</div>
-<div class="card" id="res" style="display:none;text-align:center">
-<h2>🎉 Set Done!</h2><h1 id="fs" style="font-size:42px;color:#764ba2"></h1><p id="rs"></p>
-<button class="btn n" style="width:100%" onclick="restart()">🔄 Restart</button>
-<button class="btn p" style="width:100%;margin-top:8px" onclick="nextSet()">➡️ Next Set</button>
-</div>
-</div>
-<div id="pop"></div>
-<script>
-const DATA={M:[{q:"Which is irrational?",o:["1/2","0.25","√2","4"],a:2},{q:"Rational number decimal is:",o:["Non-term non-recur","Terminating","Term or non-term recur","Non-recur"],a:2},{q:"Rational?",o:["√3","√5","√7","√9"],a:3},{q:"√144?",o:["10","11","12","14"],a:2},{q:"Between 2 and 3?",o:["√5","√2","√10","√16"],a:0},{q:"2^3×2^2?",o:["16","32","64","8"],a:1},{q:"5^0?",o:["0","1","5","10"],a:1},{q:"2^-2?",o:["-4","4","1/4","-1/4"],a:2},{q:"Terminating?",o:["1/3","2/7","3/8","5/6"],a:2},{q:"1/√5 rationalised?",o:["√5","5√5","√5/5","1/5"],a:2},{q:"Simplify √49+√16",o:["9","11","12","13"],a:1},{q:"Which is irrational?",o:["√25","√36","√11","3/4"],a:2},{q:"3^2×3^3?",o:["81","243","729","27"],a:1},{q:"2^5/2^2?",o:["4","6","8","16"],a:2},{q:"(√3)^2?",o:["3","6","9","√6"],a:0},{q:"p(2) if p=2x^2+3x-1",o:["9","11","13","15"],a:2},{q:"Degree 7x^4-3x^2+x-8",o:["2","3","4","7"],a:2},{q:"Factorise x^2-16",o:["(x-4)(x+4)","(x-8)(x+2)","(x-4)^2","(x+16)(x-1)"],a:0},{q:"Expand (x+2)^2",o:["x^2+4","x^2+2x+4","x^2+4x+4","x^2-4x+4"],a:2},{q:"If x=3, x^2+2x+1",o:["10","12","16","18"],a:2},{q:"Solve x+7=15",o:["7","8","9","22"],a:1},{q:"Solve 3x=21",o:["6","7","8","9"],a:1},{q:"If x+y=10 x=4 then y",o:["4","5","6","14"],a:2},{q:"Point on y=2x?",o:["(2,4)","(2,3)","(1,3)","(3,5)"],a:0},{q:"Graph y=3 is",o:["Parallel X","Parallel Y","Through origin","Sloping"],a:0},{q:"Point (0,5) lies on",o:["X-axis","Y-axis","I Quad","IV Quad"],a:1},{q:"Third quad coords",o:["Both +","x+ y-","Both -","x- y+"],a:2},{q:"Abscissa (-6,4)",o:["4","-6","6","-4"],a:1},{q:"Ordinate (3,-8)",o:["3","8","-3","-8"],a:3},{q:"Linear pair 125°, other?",o:["45","55","65","125"],a:1},{q:"Comple ratio 2:1 smaller?",o:["20","30","40","60"],a:1},{q:"Exterior angle equals",o:["Sum 2 opp interior","Diff all","90","Sum all"],a:0},{q:"Triangle 35° 85° third?",o:["50","60","70","80"],a:1},{q:"5,12,13 triangle?",o:["Right","Equilateral","Obtuse","Equal sides"],a:0},{q:"NOT congruence?",o:["SSS","SAS","ASA","AAA"],a:3},{q:"Parallelogram 70°, adjacent?",o:["70","90","110","180"],a:2},{q:"Rhombus diagonals at?",o:["30","45","60","90"],a:3},{q:"Pentagon interior sum?",o:["360","450","540","720"],a:2},{q:"Equal chords subtend at",o:["Centre","Tangent","Diameter end","Everywhere"],a:0},{q:"Diameter angle on circle?",o:["45","60","90","180"],a:2},{q:"Semi-peri 8,10,12?",o:["12","15","20","30"],a:1},{q:"Area base12 height5?",o:["17","30","60","120"],a:1},{q:"Square side9 area?",o:["18","36","81","729"],a:2},{q:"Rect 12x5 perimeter?",o:["17","34","60","120"],a:1},{q:"Circle r7 area 22/7?",o:["44","88","154","308"],a:2},{q:"Cube side4 volume?",o:["16","32","48","64"],a:3},{q:"Cuboid 5x4x3 vol?",o:["12","20","60","120"],a:2},{q:"CSA cylinder?",o:["π²h","2πrh","2πr²","πr²"],a:1},{q:"Cone vol 1/3 cylinder?",o:["True","False","Only r=1","Only h=1"],a:0},{q:"Mean 5,10,15,20,25?",o:["10","15","20","25"],a:1}],P:[{q:"SI unit distance?",o:["Kg","Metre","Sec","Newton"],a:1},{q:"Scalar?",o:["Displacement","Velocity","Speed","Acceleration"],a:2},{q:"Vector?",o:["Distance","Speed","Time","Displacement"],a:3},{q:"SI speed?",o:["m/s","km","m/s²","kg"],a:0},{q:"Speed formula?",o:["T/D","D/T","D×T","D+T"],a:1},{q:"100m in 20s speed?",o:["2","5","10","20"],a:1},{q:"Displacement?",o:["Total path","Dist/sec","Change pos direction","Total time"],a:2},{q:"Never negative?",o:["Displ","Vel","Distance","Acc"],a:2},{q:"SI acceleration?",o:["m/s","m/s²","km/h","Newton"],a:1},{q:"Uniform motion?",o:["Equal dist equal time","Unequal","No dir","Only circle"],a:0},{q:"120m in 10s speed?",o:["10","12","20","1200"],a:1},{q:"Vector?",o:["Distance","Speed","Displacement","Time"],a:2},{q:"Slope vel-time?",o:["Dist","Speed","Acceleration","Displ"],a:2},{q:"0 to 20 in 4s a?",o:["4","5","10","80"],a:1},{q:"Constant vel a?",o:["Zero","One","Inc","Infinite"],a:0},{q:"SI force?",o:["Joule","Watt","Newton","Pascal"],a:2},{q:"Newton laws?",o:["Einstein","Newton","Galileo","Watt"],a:1},{q:"First law also?",o:["Acc","Inertia","Grav","Momentum"],a:1},{q:"Inertia?",o:["Resist change motion","Light","Pull Earth","Rate vel"],a:0},{q:"Inertia depends?",o:["Colour","Shape","Mass","Temp"],a:2},{q:"F=ma is?",o:["First","Second","Third","Grav"],a:1},{q:"Momentum?",o:["Mass×Vel","Mass/Vel","Force×Dist","Mass×Acc"],a:0},{q:"SI momentum?",o:["kg m/s","kg/m","m/s²","N/m"],a:0},{q:"Mass doubles momentum?",o:["Half","Doubles","Zero","Same"],a:1},{q:"Action reaction?",o:["First","Second","Third","Conserv"],a:2},{q:"Bus stops forward?",o:["Inertia motion","Magnet","Gravity","Air"],a:0},{q:"Gun recoil?",o:["First","Third","Reflect","Grav"],a:1},{q:"10N on 2kg a?",o:["2","5","10","20"],a:1},{q:"SI mass?",o:["Newton","Kg","Joule","Watt"],a:1},{q:"Weight?",o:["Kg","Metre","Newton","Sec"],a:2},{q:"W=mg?",o:["W=m/g","W=mg","W=m+g","W=m-g"],a:1},{q:"g value?",o:["4.9","8.9","9.8","98"],a:2},{q:"Weight Moon?",o:["1/6","Double","Same","6x"],a:0},{q:"Pressure?",o:["Force×Area","Force/Area","Area/Force","Mass×Vel"],a:1},{q:"SI pressure?",o:["Newton","Joule","Pascal","Watt"],a:2},{q:"Work SI?",o:["Newton","Joule","Watt","Pascal"],a:1},{q:"Work= ?",o:["Force×Displ","Mass×Vel","Force/Time","Mass×Acc"],a:0},{q:"10N 5m work?",o:["2J","15J","50J","5J"],a:2},{q:"No move work?",o:["10J","Zero","Neg","Infinite"],a:1},{q:"Power unit?",o:["Joule","Newton","Watt","Metre"],a:2},{q:"100J 10s power?",o:["10W","100W","1000W","0.1W"],a:0},{q:"KE formula?",o:["mv","mgh","1/2 mv²","ma"],a:2},{q:"Speed doubles KE?",o:["2x","3x","4x","Half"],a:2},{q:"PE mgh?",o:["mgh","mv","ma","F/t"],a:0},{q:"Sound produced by?",o:["Vibrating","Stationary","Light","Shadows"],a:0},{q:"Sound needs?",o:["Medium","Vacuum","Sunlight","Dark"],a:0},{q:"Cannot travel?",o:["Air","Water","Steel","Vacuum"],a:3},{q:"Sound in air?",o:["Transverse","Longitudinal","Light","Radio"],a:1},{q:"SI frequency?",o:["Metre","Hertz","Joule","Watt"],a:1},{q:"Audible?",o:["2-200","20-20k","200-200k","Above 200k"],a:1}],B:[{q:"Basic unit of life?",o:["Cell","Tissue","Organ","System"],a:0},{q:"Cell discovered 1665?",o:["Hooke","Darwin","Mendel","Newton"],a:0},{q:"Powerhouse?",o:["Nucleus","Mitochondria","Chloroplast","Ribosome"],a:1},{q:"Photosynthesis in?",o:["Mito","Chloroplast","Nucleus","Ribosome"],a:1},{q:"Cell wall in?",o:["Animal only","Plant","Both","None"],a:1},{q:"Largest organelle?",o:["Mito","Nucleus","Ribosome","Chloro"],a:1},{q:"Ribosome function?",o:["Protein","Photo","Resp","Storage"],a:0},{q:"DNA in?",o:["Nucleus only","Mito+Nucleus","Ribosome","Wall"],a:1},{q:"Prokaryotic?",o:["Bacteria","Human","Plant","Animal"],a:0},{q:"Membrane is?",o:["Permeable","Semi-perm","Imperm","None"],a:1},{q:"Tissue?",o:["Group similar cells","Single cell","Organ","System"],a:0},{q:"Meristematic in?",o:["Animals","Plants growing","Brain","Heart"],a:1},{q:"Xylem transports?",o:["Food","Water","Both","None"],a:1},{q:"Phloem transports?",o:["Water","Food","Air","Blood"],a:1},{q:"Blood is?",o:["Connective","Epithelial","Muscular","Nervous"],a:0},{q:"Neuron unit?",o:["Muscular","Nervous","Digestive","Resp"],a:1},{q:"Cardiac muscle?",o:["Voluntary","Involuntary striated","Non-stri","None"],a:1},{q:"Epithelial covers?",o:["Body surfaces","Bones","Blood","None"],a:0},{q:"Malaria cause?",o:["Plasmodium","Bacteria","Virus","Fungus"],a:0},{q:"TB cause?",o:["Mycobacterium","Virus","Fungus","Protozoa"],a:0},{q:"AIDS cause?",o:["HIV","Bacteria","Fungus","Protozoa"],a:0},{q:"Viral disease?",o:["Common cold","TB","Cholera","Typhoid"],a:0},{q:"Cholera cause?",o:["Vibrio","Virus","Fungus","Worm"],a:0},{q:"Vit C deficiency?",o:["Scurvy","Rickets","Night blind","Beriberi"],a:0},{q:"Vit D deficiency?",o:["Rickets","Scurvy","Beriberi","Anemia"],a:0},{q:"Iron deficiency?",o:["Anemia","Scurvy","Rickets","Goitre"],a:0},{q:"Goitre due to?",o:["Iodine","Iron","Calcium","Vit C"],a:0},{q:"Largest gland?",o:["Liver","Pancreas","Thyroid","Adrenal"],a:0},{q:"Insulin from?",o:["Pancreas","Liver","Kidney","Heart"],a:0},{q:"Respiration in?",o:["Mito","Chloro","Nucleus","Wall"],a:0},{q:"ATP?",o:["Adenosine Triphosphate","Adenine","Both","None"],a:0},{q:"Chromosome human?",o:["46","23","44","48"],a:0},{q:"DNA full form?",o:["Deoxyribonucleic acid","Diri","Both","None"],a:0},{q:"Mitosis?",o:["2 identical","4 cells","1 cell","3 cells"],a:0},{q:"Heart chambers?",o:["2","3","4","1"],a:2},{q:"Kidney function?",o:["Filtration","Digestion","Resp","Circulation"],a:0},{q:"Largest organ?",o:["Heart","Skin","Brain","Liver"],a:1},{q:"Bones adult?",o:["206","300","150","100"],a:0},{q:"Universal donor?",o:["O","AB","A","B"],a:0},{q:"Universal recipient?",o:["O","AB","A","B"],a:1},{q:"Vector malaria?",o:["Female Anopheles","Male","Housefly","Cockroach"],a:0},{q:"Decomposer?",o:["Bacteria fungi","Lion","Cow","Goat"],a:0},{q:"Ozone protects from?",o:["UV","Visible","IR","Radio"],a:0},{q:"Greenhouse gas?",o:["CO2","O2","N2","H2"],a:0},{q:"Biodegradable?",o:["Paper","Plastic","Glass","Metal"],a:0},{q:"Blood slightly?",o:["Alkaline","Acidic","Neutral","None"],a:0},{q:"RBC life?",o:["120 days","10 days","1 year","1 day"],a:0},{q:"Hemoglobin in?",o:["RBC","WBC","Platelet","Plasma"],a:0},{q:"Normal BP?",o:["120/80","200/100","80/120","150/90"],a:0},{q:"ECG for?",o:["Heart","Brain","Kidney","Liver"],a:0}]};
-let sub='M', set=0, cur=0, score=0, correct=0, ans=[], Q=[], tmr=null, left=10;
-function init(){
- const tb=document.getElementById('tabs'); tb.innerHTML='';
- ['M','P','B'].forEach(k=>{
-  const d=document.createElement('div'); d.className='tab'+(k===sub?' on':'');
-  d.textContent=(k==='M'?'🔢 MATHS':k==='P'?'⚙️ PHYSICS':'🧬 BIOLOGY');
-  d.onclick=()=>{sub=k; set=0; load();};
-  tb.appendChild(d);
- });
-}
-function load(){
- Q=DATA[sub].slice(set*50,(set+1)*50);
- if(Q.length===0){Q=DATA[sub];}
- cur=0; ans=Array(Q.length).fill(null);
- document.getElementById('res').style.display='none';
- document.getElementById('qc').style.display='block';
- render();
-}
-function bubble(txt,col){
- const p=document.getElementById('pop'); p.textContent=txt; p.style.background=col||'#000'; p.classList.add('show');
- setTimeout(()=>p.classList.remove('show'),700);
-}
-function startTimer(){
- clearInterval(tmr); left=10;
- const fill=document.getElementById('fill');
- fill.style.transition='none'; fill.style.width='100%'; fill.style.background='#00ff9d';
- void fill.offsetWidth;
- fill.style.transition='width 10s linear'; fill.style.width='0%';
- document.getElementById('tm').textContent='10.0';
- tmr=setInterval(()=>{
-  left-=0.1;
-  document.getElementById('tm').textContent=left.toFixed(1);
-  if(left<=3) fill.style.background='#ff4757';
-  else if(left<=6) fill.style.background='#ffa502';
-  if(left<=0){clearInterval(tmr); if(ans[cur]===null){score-=10; bubble('-10 ⏰','#ff4757');} nextQ();}
- },100);
-}
-function render(){
- const q=Q[cur];
- document.getElementById('qn').textContent='Q '+(set*50+cur+1);
- document.getElementById('sn').textContent=sub+' Set '+(set+1);
- document.getElementById('qt2').textContent=q.q;
- document.getElementById('opts').innerHTML='';
- q.o.forEach((o,i)=>{
-  const d=document.createElement('div'); d.className='opt';
-  if(ans[cur]!==null){ if(i===q.a) d.classList.add('ok'); else if(i===ans[cur]) d.classList.add('bad'); }
-  d.innerHTML='<div style="width:28px;height:28px;border-radius:50%;background:#764ba2;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800">'+String.fromCharCode(65+i)+'</div><div>'+o+'</div>';
-  d.onclick=()=>{
-   if(ans[cur]!==null) return;
-   ans[cur]=i; clearInterval(tmr);
-   if(i===q.a){score+=5; correct++; bubble('+5 🎉','#00b894');} else {score-=10; bubble('-10 😢','#ff4757');}
-   update(); render();
-   setTimeout(nextQ,700);
-  };
-  document.getElementById('opts').appendChild(d);
- });
- update(); startTimer();
-}
-function update(){
- document.getElementById('sc').textContent=score;
- document.getElementById('co').textContent=correct;
- document.getElementById('qt').textContent=(cur+1)+'/'+Q.length;
-}
-function nextQ(){
- if(cur<Q.length-1){cur++; render();} else {showRes();}
-}
-document.getElementById('prev').onclick=()=>{if(cur>0){clearInterval(tmr); cur--; render();}};
-document.getElementById('next').onclick=()=>{clearInterval(tmr); if(ans[cur]===null){score-=10; bubble('-10 ⏭️','#ff4757');} nextQ();};
-function showRes(){
- clearInterval(tmr);
- document.getElementById('qc').style.display='none';
- document.getElementById('res').style.display='block';
- document.getElementById('fs').textContent=score+' pts';
- document.getElementById('rs').textContent='Correct '+correct+'/'+Q.length+' | +5 correct / -10 wrong/timeout';
-}
-function restart(){load();}
-function nextSet(){ if(set<2){set++; load();} else {set=0; sub=sub==='M'?'P':sub==='P'?'B':'M'; load();} init(); }
-init(); load();
-</script></body></html>
+  document.getElementById("questionNumber").innerText = "Question " + (current + 1) + " of " + questions.length;
+  document.getElementById("question").innerText = q.q;
+  document.getElementById("hint").classList.add("hidden");
+  document.getElementById("hint").innerText = q.hint;
+  const optionsDiv
