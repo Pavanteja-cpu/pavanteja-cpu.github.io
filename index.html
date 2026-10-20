@@ -1,5 +1,527 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MTB FAST - 10 Sec</title>
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masterpiece Learning App</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f2f6ff;
+  color: #222;
+}
+
+header {
+  background: linear-gradient(135deg, #315bea, #743cff);
+  color: white;
+  padding: 22px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+}
+
+select, button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button {
+  background: #315bea;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: .9;
+}
+
+.option {
+  background: #eef2ff;
+  color: #222;
+  text-align: left;
+}
+
+.option.correct {
+  background: #b9f6c3;
+}
+
+.option.wrong {
+  background: #ffbcbc;
+}
+
+.timer {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px;
+}
+
+.score {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.hint {
+  background: #fff4b8;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📚 Masterpiece Learning App</h1>
+  <p>Learn • Practice • Test • Improve</p>
+</header>
+
+<div class="container">
+
+<!-- HOME -->
+<div id="home" class="card">
+
+  <h2>🎓 Select Your Class</h2>
+
+  <select id="classSelect">
+    <option value="">Select Class</option>
+    <option value="1">1st Standard</option>
+    <option value="2">2nd Standard</option>
+    <option value="3">3rd Standard</option>
+    <option value="4">4th Standard</option>
+    <option value="5">5th Standard</option>
+    <option value="6">6th Standard</option>
+    <option value="7">7th Standard</option>
+    <option value="8">8th Standard</option>
+    <option value="9">9th Standard</option>
+    <option value="10">10th Standard</option>
+  </select>
+
+  <h2>📖 Select Subject</h2>
+
+  <select id="subjectSelect">
+    <option value="">Select Subject</option>
+    <option value="Maths">Mathematics</option>
+    <option value="Science">Science</option>
+    <option value="English">English</option>
+    <option value="Social">Social Studies</option>
+    <option value="Telugu">Telugu</option>
+  </select>
+
+  <button onclick="startQuiz()">🚀 Start MCQ Test</button>
+
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="card hidden">
+
+  <div class="timer">
+    ⏱️ Time: <span id="time">30</span> sec
+  </div>
+
+  <div class="score">
+    Score: <span id="score">0</span>
+  </div>
+
+  <h3 id="questionNumber"></h3>
+
+  <h2 id="question"></h2>
+
+  <div id="options"></div>
+
+  <button onclick="showHint()">💡 Hint</button>
+
+  <div id="hint" class="hint hidden"></div>
+
+  <button onclick="nextQuestion()">➡️ Next Question</button>
+
+</div>
+
+<!-- RESULT -->
+<div id="result" class="card hidden">
+
+  <h2>🎉 Test Completed!</h2>
+
+  <p class="score">
+    Your Score: <span id="finalScore"></span>
+  </p>
+
+  <button onclick="location.reload()">🔄 Try Again</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+   QUESTION BANK
+   ========================= */
+
+const questionBank = {
+
+  "1": {
+
+    "Maths": [
+
+      {
+        q: "What is 2 + 3?",
+        options: ["4", "5", "6", "7"],
+        answer: 1,
+        hint: "Count two objects and then three more."
+      },
+
+      {
+        q: "What comes after 9?",
+        options: ["8", "10", "11", "12"],
+        answer: 1,
+        hint: "Count forward from 9."
+      }
+
+    ],
+
+    "Science": [
+
+      {
+        q: "Which part of the plant is usually green?",
+        options: ["Root", "Leaf", "Flower", "Seed"],
+        answer: 1,
+        hint: "It helps the plant make food."
+      }
+
+    ],
+
+    "English": [
+
+      {
+        q: "Which is a vowel?",
+        options: ["B", "C", "A", "D"],
+        answer: 2,
+        hint: "The vowel is one of A, E, I, O, U."
+      }
+
+    ]
+
+  },
+
+  "2": {
+
+    "Maths": [
+
+      {
+        q: "What is 5 + 4?",
+        options: ["7", "8", "9", "10"],
+        answer: 2,
+        hint: "Add five and four."
+      }
+
+    ]
+
+  },
+
+  "9": {
+
+    "Maths": [
+
+      {
+        q: "What is the value of 2³?",
+        options: ["6", "8", "9", "12"],
+        answer: 1,
+        hint: "2 × 2 × 2."
+      }
+
+    ],
+
+    "Science": [
+
+      {
+        q: "What is the SI unit of force?",
+        options: ["Joule", "Newton", "Watt", "Pascal"],
+        answer: 1,
+        hint: "It is named after a famous scientist."
+      }
+
+    ]
+
+  },
+
+  "10": {
+
+    "Science": [
+
+      {
+        q: "Which organelle is known as the powerhouse of the cell?",
+        options: [
+          "Nucleus",
+          "Mitochondria",
+          "Ribosome",
+          "Golgi apparatus"
+        ],
+        answer: 1,
+        hint: "It produces most of the cell's usable energy."
+      }
+
+    ]
+
+  }
+
+};
+
+
+/* =========================
+   QUIZ VARIABLES
+   ========================= */
+
+let questions = [];
+let current = 0;
+let score = 0;
+let timeLeft = 30;
+let timer;
+
+
+/* =========================
+   START QUIZ
+   ========================= */
+
+function startQuiz() {
+
+  const selectedClass =
+    document.getElementById("classSelect").value;
+
+  const selectedSubject =
+    document.getElementById("subjectSelect").value;
+
+  if (!selectedClass || !selectedSubject) {
+    alert("Please select class and subject.");
+    return;
+  }
+
+  questions =
+    questionBank[selectedClass]?.[selectedSubject] || [];
+
+  if (questions.length === 0) {
+    alert(
+      "Question bank for this class and subject is not added yet."
+    );
+    return;
+  }
+
+  current = 0;
+  score = 0;
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("quiz")
+    .classList.remove("hidden");
+
+  document.getElementById("score")
+    .innerText = score;
+
+  loadQuestion();
+}
+
+
+/* =========================
+   LOAD QUESTION
+   ========================= */
+
+function loadQuestion() {
+
+  clearInterval(timer);
+
+  timeLeft = 30;
+
+  document.getElementById("time")
+    .innerText = timeLeft;
+
+  const q = questions[current];
+
+  document.getElementById("questionNumber")
+    .innerText =
+    "Question " + (current + 1) +
+    " of " + questions.length;
+
+  document.getElementById("question")
+    .innerText = q.q;
+
+  document.getElementById("hint")
+    .classList.add("hidden");
+
+  document.getElementById("hint")
+    .innerText = q.hint;
+
+  const optionsDiv =
+    document.getElementById("options");
+
+  optionsDiv.innerHTML = "";
+
+  q.options.forEach((option, index) => {
+
+    const button =
+      document.createElement("button");
+
+    button.innerText = option;
+
+    button.className = "option";
+
+    button.onclick = () =>
+      checkAnswer(index, button);
+
+    optionsDiv.appendChild(button);
+
+  });
+
+  timer = setInterval(() => {
+
+    timeLeft--;
+
+    document.getElementById("time")
+      .innerText = timeLeft;
+
+    if (timeLeft <= 0) {
+
+      clearInterval(timer);
+
+      nextQuestion();
+
+    }
+
+  }, 1000);
+
+}
+
+
+/* =========================
+   CHECK ANSWER
+   ========================= */
+
+function checkAnswer(selected, button) {
+
+  clearInterval(timer);
+
+  const correct =
+    questions[current].answer;
+
+  const allButtons =
+    document.querySelectorAll(".option");
+
+  allButtons.forEach(b =>
+    b.disabled = true
+  );
+
+  if (selected === correct) {
+
+    button.classList.add("correct");
+
+    score++;
+
+    document.getElementById("score")
+      .innerText = score;
+
+  } else {
+
+    button.classList.add("wrong");
+
+    allButtons[correct]
+      .classList.add("correct");
+
+  }
+
+}
+
+
+/* =========================
+   HINT
+   ========================= */
+
+function showHint() {
+
+  document.getElementById("hint")
+    .classList.remove("hidden");
+
+}
+
+
+/* =========================
+   NEXT QUESTION
+   ========================= */
+
+function nextQuestion() {
+
+  current++;
+
+  if (current >= questions.length) {
+
+    finishQuiz();
+
+  } else {
+
+    loadQuestion();
+
+  }
+
+}
+
+
+/* =========================
+   FINISH
+   ========================= */
+
+function finishQuiz() {
+
+  clearInterval(timer);
+
+  document.getElementById("quiz")
+    .classList.add("hidden");
+
+  document.getElementById("result")
+    .classList.remove("hidden");
+
+  document.getElementById("finalScore")
+    .innerText =
+    score + " / " + questions.length;
+
+}
+
+</script>
+
+</body>
+</html>>MTB FAST - 10 Sec</title>
 <style>
 body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;min-height:100vh}
 .h{position:sticky;top:0;background:rgba(0,0,0,.3);backdrop-filter:blur(10px);padding:12px;z-index:10}
